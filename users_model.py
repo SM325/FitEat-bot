@@ -140,7 +140,6 @@ def update_user_state(user_name, cur_state):
         return True
     return False
 
-
 def update_user_day_non_str_field(user_name_, req_date_, field_name, field_value):
     date_for_query = req_date_.strftime("%Y-%m-%d")
     query = '''UPDATE user_day
@@ -157,5 +156,6 @@ def update_nutrition(user_name_, req_date_, calories, fat, carb, protein):
     fat_res = update_user_day_non_str_field(user_name_,req_date_, 'fat', curr_user_day.get('fat') + fat)
     crab_res = update_user_day_non_str_field(user_name_, req_date_, 'carb', curr_user_day.get('carb') + carb)
     protein_res = update_user_day_non_str_field(user_name_, req_date_, 'protein', curr_user_day.get('protein') + protein)
+
 
     return calories_res and fat_res and crab_res and protein_res

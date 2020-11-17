@@ -9,7 +9,8 @@ def get_nutritions_by_weight(fields, weight_user):
         'calories': new_value(fields.get('nf_calories')),
         'fat': new_value(fields.get('nf_total_fat')),
         'carb': new_value(fields.get('nf_total_carbohydrate')),
-        'protein': new_value(fields.get('nf_protein'))
+        'protein': new_value(fields.get('nf_protein')),
+        'weight': weight_user
     }
     return item_dict
 
