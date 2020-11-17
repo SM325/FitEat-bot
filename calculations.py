@@ -43,7 +43,5 @@ def get_fats(birth_date, weight, height, gender):
 
 
 def calculate_bmi(weight, height):
-    return weight / (height ** 2)
+    return round(weight / (height ** 2), 2)
 
-
-print(calculate_bmi(50, 1.7))
