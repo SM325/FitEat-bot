@@ -18,13 +18,13 @@ def do_query(query_str):
         result = cursor.fetchall()
         return result
 
-    
 
 def do_query_with_change(query_str):
     with connection.cursor() as cursor:
         cursor.execute(query_str)
         connection.commit()
         return True
+
 
 # def add_user(user_name_, name_, birth_date_, weight_, height_, max_calories_, max_fat_, max_crab_, max_protein_, current_state_ = "main"):
 #     date_for_query = birth_date_.strftime("%Y-%m-%d")
@@ -34,31 +34,35 @@ def do_query_with_change(query_str):
 #         return True
 #     return False
 
-def add_user_without_init(user_name_):
-    default_state = "/start"
-    query = "INSERT INTO user VALUES('{}', '', 0, '1001-01-01', 0, 0, 0, 0, 0, 0, '{}')".format(user_name_, default_state)
-    succ = do_query_with_change(query) 
+def add_user_without_init(user_name_, name_):
+    default_state = "pre_start"
+    query = "INSERT INTO user VALUES('{}', '{}', 0, '1001-01-01', 0, 0, 0, 0, 0, 0, '{}')".format(user_name_, name_,
+                                                                                                default_state)
+    succ = do_query_with_change(query)
     if succ:
         return True
     return False
+
 
 def update_user_str_field(user_name, field_name, field_value):
-    query= '''UPDATE user
+    query = '''UPDATE user
             SET {} = '{}'
             where user_name = '{}' '''.format(field_name, field_value, user_name)
-    succ = do_query_with_change(query) 
+    succ = do_query_with_change(query)
     if succ:
         return True
     return False
 
+
 def update_user_non_str_field(user_name, field_name, field_value):
-    query= '''UPDATE user
+    query = '''UPDATE user
             SET {} = {}
             where user_name = '{}' '''.format(field_name, field_value, user_name)
-    succ = do_query_with_change(query) 
+    succ = do_query_with_change(query)
     if succ:
         return True
     return False
+
 
 def init_user(user_name_, name_, birth_date_, weight_, height_, max_calories_, max_fat_, max_crab_, max_protein_):
     name_res = update_user_str_field(user_name_, 'name', name_)
@@ -75,6 +79,7 @@ def init_user(user_name_, name_, birth_date_, weight_, height_, max_calories_, m
         return True
     return False
 
+
 def is_exist_user_without_init(user_name):
     res = False
     query = "SELECT * FROM user as u where u.user_name = '{}'".format(user_name)
@@ -82,6 +87,7 @@ def is_exist_user_without_init(user_name):
     if items:
         res = True
     return res
+
 
 def is_init_user(user_name):
     res = False
@@ -91,6 +97,7 @@ def is_init_user(user_name):
         res = True
     return res
 
+
 def get_user(user_name):
     res = None
     query = "SELECT * FROM user as u where u.user_name = '{}'".format(user_name)
@@ -98,6 +105,7 @@ def get_user(user_name):
     if items:
         res = items[0]
     return res
+
 
 def is_exist_user_day(user_name, req_date):
     res = False
@@ -111,17 +119,20 @@ def is_exist_user_day(user_name, req_date):
         res = True
     return res
 
+
 def add_user_day(user_name, req_date):
     date_for_query = req_date.strftime("%Y-%m-%d")
     query = "INSERT INTO user_day VALUES('{}', '{}', 0, 0, 0, 0)".format(user_name, date_for_query)
-    succ = do_query_with_change(query) 
+    succ = do_query_with_change(query)
     if succ:
         return True
     return False
 
+
 def get_user_day(user_name, req_date):
     res = None
-    query = "SELECT * FROM user_day as ud where ud.user_name = '{}' and ud.date_of_day = '{}'".format(user_name, req_date)
+    query = "SELECT * FROM user_day as ud where ud.user_name = '{}' and ud.date_of_day = '{}'".format(user_name,
+                                                                                                      req_date)
     items = do_query(query)
     if items:
         res = items[0]

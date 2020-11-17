@@ -1,21 +1,16 @@
 import requests
-
 from message import Message
 from webhook_setup import TELEGRAM_SEND_WEBHOOK_URL, TELEGRAM_INIT_WEBHOOK_URL
 
 import routing
 
 
-def get_menu(message):
-    return "menu"
-
 
 class Bot:
     def __init__(self):
         self.outgoing_message = None
         self.message = None
-        # self.handlers = {}
-        self.next_func = {}
+        self.next_action = {}
 
     def send_message(self):
         res = requests.get(
@@ -30,7 +25,7 @@ class Bot:
             self.message = Message(msg)
 
             action = "/start"  # self.message["text"]
-            handler = routing.get_handler(self.message.incoming_message, self.message.user_id, self.next_func)  # get_menu  # self.handlers(action)
+            handler = routing.get_handler(self.message.incoming_message, self.message.user_id, self.next_action)  # get_menu  # self.handlers(action)
 
             self.outgoing_message = handler(self.message)
             # update the pre state in DB to this
@@ -45,13 +40,13 @@ class Bot:
     # def add_handler(self, action, handler):
     #     self.handlers[action] = handler
 
-    def add_next_func(self, action, func):
-        self.next_func[action] = func
+    def add_next_action(self, action, func):
+        self.next_action[action] = func
 
 
 def get_bot():
     bot = Bot()
-    bot.add_next_func("pre_start", get_menu)
-    # bot.add_handler("/start", get_menu)
+    bot.add_next_action("pre_start", routing.get_menu)
+    # bot.add_next_action("/start")
     Bot.init_webhook(TELEGRAM_INIT_WEBHOOK_URL)
     return bot

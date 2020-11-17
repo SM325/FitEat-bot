@@ -1,3 +1,6 @@
+import users_model
+
+
 class Message:
 
     def __init__(self, data):
@@ -11,10 +14,11 @@ class Message:
         if not self.__is_exist_user():
             self.__store_user()
 
+    def get_full_name(self):
+        return self.first_name + " " + self.last_name
+
     def __is_exist_user(self):
-        pass
+        return users_model.is_exist_user_without_init(self.user_id)
 
     def __store_user(self):
-        pass
-
-
+        users_model.add_user_without_init(self.user_id, self.get_full_name())
