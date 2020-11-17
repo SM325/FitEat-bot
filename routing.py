@@ -30,7 +30,17 @@ def update_handler(message):
     message.update_current_state("/update")
     return msg
 
+def add_to_match_list(value, val_name, pos_details_list, neg_details_list, zero_details_list):
+    if value == 0 :
+        zero_details_list.append("{}\n".format(val_name))
+    if value > 0:
+        pos_details_list.append("{} {}\n".format(value, val_name))
+    if value < 0:
+        neg_details_list.append("{} {}\n".format(-1 * value, val_name))
+
+
 def daily_state_handler(message):
+    msg = ""
     cur_date = datetime.datetime.now()
     if not message.is_exist_init_user():
         message.update_current_state("/start")
@@ -45,10 +55,32 @@ def daily_state_handler(message):
     fat_dif = user_details.get("max_fat") - daily_details.get("fat")
     protein_dif = user_details.get("max_protein") - daily_details.get("protein")
 
-    msg = "carb dif "+ (str)(carb_dif)
-    msg += "calories_dif "+ (str)(calories_dif)
-    msg += "fat_dif "+ (str)(fat_dif)
-    msg += "protein_dif dif "+ (str)(protein_dif)
+    pos_list = list()
+    nag_list = list()
+    zero_list = list()
+
+    pos_details = "You have: \n"
+    neg_details = "You over: \n"
+    zero_details = "You finish: \n"
+
+    add_to_match_list(carb_dif, "carbs",pos_list, nag_list, zero_list) 
+    add_to_match_list(calories_dif, "calories",pos_list, nag_list, zero_list) 
+    add_to_match_list(fat_dif, "fats",pos_list, nag_list, zero_list) 
+    add_to_match_list(protein_dif, "proteins",pos_list, nag_list, zero_list) 
+
+
+    if len(pos_list):
+        for str_ in pos_list:
+            pos_details += str_
+        msg = pos_details
+    if len(nag_list):
+        for str_ in nag_list:
+            neg_details += str_
+        msg = neg_details
+    if len(zero_list):
+        for str_ in zero_list:
+            zero_details += str_
+        msg = zero_details
 
     message.update_current_state("/update")
     return msg

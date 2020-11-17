@@ -1,24 +1,23 @@
--- CREATE database healthy_app;
+ -- CREATE database healthy_app;
 
--- USE healthy_app; 
-drop database  healthy_app;
+ USE healthy_app; 
  -- drop TABLE user_day;
 --  drop TABLE user;
 
--- CREATE TABLE user(
---     user_name varchar(50) not null  PRIMARY KEY,
---     name varchar(50),
---     is_init bit,
---     birth_date date,
---     weight float,
---     height float, 
---     max_calories float,
---     max_fat float,
---     max_carb float,
---     max_protein float,
---     current_state varchar(50),
---     gender ENUM('male', 'female')
---     );
+CREATE TABLE user(
+    user_name varchar(50) not null  PRIMARY KEY,
+    name varchar(50),
+    is_init bit,
+    birth_date date,
+    weight float,
+    height float, 
+    max_calories float,
+    max_fat float,
+    max_carb float,
+    max_protein float,
+    current_state varchar(50),
+    gender ENUM('male', 'female')
+    );
 
 
 -- CREATE TABLE user_day(
@@ -34,4 +33,5 @@ drop database  healthy_app;
 --     FOREIGN KEY(user_name) REFERENCES user(user_name)
 -- );
 
---  select * from user
+  select * from user
+
