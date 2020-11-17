@@ -1,3 +1,5 @@
+from api_nutrition import get_nutritional_values
+
 def start_handler(message):
     start_menu = '/start - return to the menu'
     details_menu = '/details - return to show details'
@@ -25,9 +27,19 @@ def update_handler(message):
     return msg
 
 def get_nutrition_from_details_handler(message):
-    msg = "details..."
-    message.update_current_state("nutrition_from_details")  # ????
-    return msg
+    message_word = message.incoming_message.split(" ")
+    if message_word[0].isdigit():
+        return get_wrong_msg(message)
+    if not message_word[-1].isdigit():
+        weight = 100
+        product = message
+    else:
+        weight = int(message_word[-1])
+        product = " ".join(message_word[:-1])
+    nutritions = get_nutritional_values(product, weight)
+    if not nutritions:
+        return get_wrong_msg(message)
+    return "calories " + str(nutritions['calories'])
 
 def update_the_user_details_handler(message):
     details = message.incoming_message.split()
