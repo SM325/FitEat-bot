@@ -24,7 +24,7 @@ class Bot:
             self.message = Message(msg)
 
             action = "/start"  # self.message["text"]
-            handler = routing.get_handler(self.message.incoming_message, self.message.user_id,
+            handler = routing.get_handler(self.message, self.message.user_id,
                                           self.next_action)  # get_menu  # self.handlers(action)
 
             self.outgoing_message = handler(self.message)
@@ -46,8 +46,8 @@ class Bot:
 
 def get_bot():
     bot = Bot()
-    bot.add_next_action("pre_start", routing.get_menu)
-    bot.add_next_action("/start", {"/details": routing.get_details})
-    bot.add_next_action("/details", routing.get_food)
+    bot.add_next_action("pre_start", routing.start_handler)
+    bot.add_next_action("/start", {"/details": routing.details_handler, "/add" : routing.add_handler})
+    bot.add_next_action("/details", routing.get_nutrition_from_details_handler)
     Bot.init_webhook(TELEGRAM_INIT_WEBHOOK_URL)
     return bot
