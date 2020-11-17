@@ -26,13 +26,6 @@ def do_query_with_change(query_str):
         connection.commit()
         return True
 
-# def add_user(user_name_, name_, birth_date_, weight_, height_, max_calories_, max_fat_, max_crab_, max_protein_, current_state_ = "main"):
-#     date_for_query = birth_date_.strftime("%Y-%m-%d")
-#     query = "INSERT INTO user VALUES('{}', '{}', '{}', {}, {}, {}, {}, {}, {}, '{}')".format(user_name_, name_, date_for_query, weight_, height_, max_calories_, max_fat_, max_crab_, max_protein_, current_state_)
-#     succ = do_query_with_change(query) 
-#     if succ:
-#         return True
-#     return False
 
 def add_user_without_init(user_name_):
     default_state = "/start"
