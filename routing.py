@@ -20,7 +20,7 @@ def add_handler(message):
     return msg
 
 def update_handler(message):
-    msg = "please enter your birth_date, weight and height..."
+    msg = "Please enter your birth date, weight, height and gender"
     message.update_current_state("/update")
     return msg
 
@@ -30,9 +30,18 @@ def get_nutrition_from_details_handler(message):
     return msg
 
 def update_the_user_details_handler(message):
-    
-    msg = "update..."
-    message.update_current_state("update_user_details")  # ????
+    details = message.incoming_message.split()
+    if len(details) != 4:
+        msg = "I cant read.\n Please enter your birth date, weight, height and gender"
+    else:
+        # validation!!!
+        birth_date = details[0]
+        weight = (float)(details[1])
+        height = (float)(details[2])
+        gender = details[3]
+        message.update_user_details(birth_date, weight, height, gender)
+        msg = "update..."
+        message.update_current_state("update_user_details")  # ????
     return msg
 
 def get_wrong_msg(message):

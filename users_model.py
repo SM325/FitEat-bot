@@ -66,10 +66,10 @@ def init_user(user_name_, name_, birth_date_, weight_, height_, max_calories_, m
     max_fat_res = update_user_non_str_field(user_name_, 'max_fat', max_fat_)
     max_crab_res = update_user_non_str_field(user_name_, 'max_carb', max_crab_)
     max_protein_res = update_user_non_str_field(user_name_, 'max_protein', max_protein_)
-    gender_res = update_user_non_str_field(user_name_, 'gender', gender_)
+    gender_res = update_user_str_field(user_name_, 'gender', gender_)
 
 
-    if name_res and is_init_res and birth_date_res and weight_res and height_res and max_calories_res and max_fat_res and max_protein_res and max_crab_res:
+    if name_res and is_init_res and birth_date_res and weight_res and height_res and max_calories_res and max_fat_res and max_protein_res and max_crab_res and gender_res:
         return True
     return False
 

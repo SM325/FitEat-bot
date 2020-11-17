@@ -1,5 +1,5 @@
 import users_model
-
+import calculates
 
 class Message:
 
@@ -29,3 +29,10 @@ class Message:
 
     def update_current_state(self, cur_state):
         users_model.update_user_state(self.user_id, cur_state)
+
+    def update_user_details(self, birth_date, weight, height, gender ):
+        calories= calculates.get_calories(birth_date, weight, height, gender)
+        fats= calculates.get_fats(birth_date, weight, height, gender)
+        crabs = calculates.get_carbs(birth_date, weight, height, gender)
+        protein = calculates.get_protein(birth_date, weight, height, gender)
+        users_model.init_user(self.user_id, self.get_full_name(), birth_date, weight, height, calories, fats, crabs, protein, gender)
