@@ -39,7 +39,17 @@ def get_nutrition_from_details_handler(message):
     nutritions = get_nutritional_values(product, weight)
     if not nutritions:
         return get_wrong_msg(message)
-    return "calories " + str(nutritions['calories'])
+    return display_nutritions_list(nutritions, weight)
+
+def display_nutritions_list(nutritions, weight):
+    nutritions_list = "Displays nutritional values for {}, {}g".format(nutritions['item_name'], str(weight))
+    nutritions_list += "\nCalories: " + str(nutritions['calories'])
+    nutritions_list += "\nfat: " + str(nutritions['fat'])
+    nutritions_list += "\ncarb: " + str(nutritions['carb'])
+    nutritions_list += "\nprotein: " + str(nutritions['protein'])
+    return nutritions_list
+
+
 
 def update_the_user_details_handler(message):
     details = message.incoming_message.split()
