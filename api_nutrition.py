@@ -20,6 +20,8 @@ def get_products_list(product):
     return result.json().get('hits')
 
 def get_item(products, product_name_words):
+    if not products:
+        return None
     for item in products:
         item_name_words = set(item.get('fields').get('item_name').lower().split(" "))
         if product_name_words.issubset(item_name_words) and len(product_name_words) == len(item_name_words):
