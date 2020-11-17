@@ -8,6 +8,7 @@
 CREATE TABLE user(
     user_name varchar(50) not null  PRIMARY KEY,
     name varchar(50),
+    is_init bit,
     birth_date date,
     weight float,
     height float,  
@@ -30,6 +31,7 @@ CREATE TABLE user_day(
     PRIMARY KEY (user_name, date_of_day),
 
     FOREIGN KEY(user_name) REFERENCES user(user_name)
-)
+);
+
 
 
