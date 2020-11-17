@@ -1,5 +1,6 @@
 from api_nutrition import get_nutritional_values
 
+
 def start_handler(message):
     start_menu = '/start - return to the menu'
     details_menu = '/details - return to show details'
@@ -21,10 +22,12 @@ def add_handler(message):
     message.update_current_state("/add")
     return msg
 
+
 def update_handler(message):
     msg = "Please enter your birth date, weight, height and gender"
     message.update_current_state("/update")
     return msg
+
 
 def get_nutrition_from_details_handler(message):
     message_word = message.incoming_message.split(" ")
@@ -51,6 +54,7 @@ def display_nutritions_list(nutritions, weight):
 
 
 
+
 def update_the_user_details_handler(message):
     details = message.incoming_message.split()
     if len(details) != 4:
@@ -65,6 +69,7 @@ def update_the_user_details_handler(message):
         msg = "update..."
         message.update_current_state("update_user_details")  # ????
     return msg
+
 
 def get_wrong_msg(message):
     return "I can't understand.\nplease try again."
