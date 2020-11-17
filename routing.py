@@ -162,7 +162,7 @@ def get_handler(message, user_name, next_action):
 
 def getBMI_handler(message):
     user = users_model.get_user(message.user_id)
-    if user.get('is_init') == 1:
+    if message.is_exist_init_user():
         bmi = calculations.calculate_bmi(user['weight'], user['height'])
         normal_weight = calculations.calculate_normal_weight(user['weight'])
         bmi_print = "your BMI is: " + str(bmi)
