@@ -17,5 +17,15 @@ def calculate_calories(height, weight, age, gender):
 
 x = calculate_calories(1.74, 72.4, 45, "female")
 
-print(x)
 
+def get_calories(birth_date, weight, height, gender):
+    return 100
+
+def get_carbs(birth_date, weight, height, gender):
+    return 100
+
+def get_protein(birth_date, weight, height, gender):
+    return 100
+
+def get_fats(birth_date, weight, height, gender):
+    return 100

@@ -34,5 +34,4 @@ CREATE TABLE user_day(
     FOREIGN KEY(user_name) REFERENCES user(user_name)
 );
 
-
--- select * from user
+ select * from user

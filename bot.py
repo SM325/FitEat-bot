@@ -23,7 +23,6 @@ class Bot:
             msg = req.get("message")
             self.message = Message(msg)
 
-            action = "/start"  # self.message["text"]
             handler = routing.get_handler(self.message, self.message.user_id,
                                           self.next_action)  # get_menu  # self.handlers(action)
 
@@ -47,7 +46,8 @@ class Bot:
 def get_bot():
     bot = Bot()
     bot.add_next_action("pre_start", routing.start_handler)
-    bot.add_next_action("/start", {"/details": routing.details_handler, "/add" : routing.add_handler})
+    bot.add_next_action("/start", {"/details": routing.details_handler, "/add" : routing.add_handler, "/update": routing.update_handler})
     bot.add_next_action("/details", routing.get_nutrition_from_details_handler)
+    bot.add_next_action("/update", routing.update_the_user_details_handler)
     Bot.init_webhook(TELEGRAM_INIT_WEBHOOK_URL)
     return bot
