@@ -4,8 +4,8 @@ import requests
 
 from bot import get_bot
 
-
 app = Flask(__name__)
+
 
 @app.route('/message', methods=["POST"])
 def handle_message():
@@ -18,9 +18,11 @@ def handle_message():
     #                    .format(TOKEN, chat_id, res))
 
     res = bot.action(req)
-    # if res:
-    #     res = bot.send_message()
-    return Response(res)
+    if res:
+        res = bot.send_message()
+        return Response("success")
+    else:
+        return Response("fail")
 
 
 if __name__ == '__main__':

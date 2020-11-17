@@ -22,8 +22,8 @@ class Bot:
     def action(self, req):
         '''return True if the action sucsess else -False'''
 
-        if req.get("massage"):  # edited_ message ???
-            msg = req.get("massage")
+        if req.get("message"):  # edited_ message ???
+            msg = req.get("message")
             self.message = msg
             # self.message = Message (msg)
 
