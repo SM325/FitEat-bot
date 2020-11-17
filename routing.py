@@ -45,7 +45,7 @@ def daily_state_handler(message):
     if not message.is_exist_init_user():
         message.update_current_state("/start")
         # go to start hendler
-        return "Your details is already init.\n Please go to update before from /start"
+        return "Your details is already init.\n Please go to update from /start"
     
     daily_details = message.get_user_day(cur_date)
     user_details = message.get_user()
