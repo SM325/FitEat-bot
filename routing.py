@@ -1,5 +1,5 @@
 from api_nutrition import get_nutritional_values
-
+import users_model
 
 def start_handler(message):
     start_menu = '/start - return to the menu'
@@ -32,6 +32,7 @@ def add_nutrition_to_database(message):
     nutritions = get_nutritions(message)
     if not nutritions:
         return get_wrong_msg(message)
+    users_model.update_nutrition(message.user_id, message.date, nutritions['calories'], nutritions['fat'], nutritions['carb'], nutritions['protein'])
 
 
 def get_nutrition_from_details_handler(message):
@@ -94,3 +95,6 @@ def get_handler(message, user_name, next_action):
     else:
         func = next_action.get(pre_state, get_wrong_msg)
     return func
+
+def getBMI_handler(message):
+    pass
