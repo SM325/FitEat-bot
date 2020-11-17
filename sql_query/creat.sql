@@ -1,4 +1,4 @@
--- create database healthy_app;
+-- CREATE database healthy_app;
 
 USE healthy_app; 
 
@@ -16,7 +16,7 @@ CREATE TABLE user(
     max_fat float,
     max_carb float,
     max_protein float,
-    current_state varchar(50)
+    current_state varchar(50),
     gender ENUM('male', 'female')
     );
 
@@ -35,4 +35,4 @@ CREATE TABLE user_day(
 );
 
 
-select * from user
+-- select * from user
