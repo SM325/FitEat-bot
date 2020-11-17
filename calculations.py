@@ -39,3 +39,10 @@ def get_protein(birth_date, weight, height, gender):
 
 def get_fats(birth_date, weight, height, gender):
     return int(get_calories(birth_date, weight, height, gender) * 0.2)
+
+
+def calculate_bmi(weight, height):
+    return weight / (height ** 2)
+
+
+print(calculate_bmi(50, 1.7))

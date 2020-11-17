@@ -66,7 +66,7 @@ def update_the_user_details_handler(message):
         height = (float)(details[2])
         gender = details[3]
         message.update_user_details(birth_date, weight, height, gender)
-        msg = "good, i update your details"
+        msg = "good, I update your details"
         message.update_current_state("update_user_details")
     return msg
 
