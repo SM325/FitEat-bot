@@ -136,3 +136,6 @@ def update_user_state(user_name, cur_state):
     if state_res:
         return True
     return False
+
+def update_nutrition(user_name, req_date, nut_dict):
+    pass

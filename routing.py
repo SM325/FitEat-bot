@@ -28,17 +28,13 @@ def update_handler(message):
     message.update_current_state("/update")
     return msg
 
+def add_nutrition_to_database(message):
+    nutritions = get_nutritions(message)
+    if not nutritions:
+        return get_wrong_msg(message)
+
 
 def get_nutrition_from_details_handler(message):
-    # message_word = message.incoming_message.split(" ")
-    # if message_word[0].isdigit():
-    #     return get_wrong_msg(message)
-    # if not message_word[-1].isdigit():
-    #     weight = 100
-    #     product = message.incoming_message
-    # else:
-    #     weight = int(message_word[-1])
-    #     product = " ".join(message_word[:-1])
     nutritions = get_nutritions(message)
     if not nutritions:
         return get_wrong_msg(message)
