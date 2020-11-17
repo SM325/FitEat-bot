@@ -11,12 +11,13 @@ USE healthy_app;
 --     is_init bit,
 --     birth_date date,
 --     weight float,
---     height float,  
+--     height float, 
 --     max_calories float,
 --     max_fat float,
 --     max_carb float,
 --     max_protein float,
---     current_state varchar(50)
+--     current_state varchar(50),
+--     gender ENUM('male', 'female')
 --     );
 
 
