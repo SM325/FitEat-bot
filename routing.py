@@ -32,7 +32,7 @@ def get_nutrition_from_details_handler(message):
         return get_wrong_msg(message)
     if not message_word[-1].isdigit():
         weight = 100
-        product = message
+        product = message.incoming_message
     else:
         weight = int(message_word[-1])
         product = " ".join(message_word[:-1])
