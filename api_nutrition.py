@@ -1,6 +1,6 @@
 from config import APP_ID_NUTRITIONIX, APP_KEY_NUTRITIONIX
 import requests
-
+import calculations
 
 def get_products_list(product):
     params_to_send = {
@@ -31,21 +31,20 @@ def get_item(products, product_name_words):
             return item
 
 
-def get_nutritional_values(product):
+def get_nutritional_values(product, weight):
     products = get_products_list(product)
     product_name_words = set(product.lower().split(" "))
     item = get_item(products, product_name_words)
     if item:
         fields = item.get('fields')
-        item_dict = {
-            'item_name': fields.get('item_name'),
-            'calories': fields.get('nf_calories'),
-            'fat': fields.get('nf_total_fat'),
-            'carb': fields.get('nf_total_carbohydrate'),
-            'protein': fields.get('nf_protein'),
-            'weight': fields.get('nf_serving_weight_grams')
-        }
+        print(fields)
+        item_dict = calculations.get_nutritions_by_weight(fields, weight)
         return item_dict
 
 if __name__ == '__main__':
-    get_nutritional_values("home fries")
+    print(get_nutritional_values("chocolate", 30))
+    # print(get_nutrition_from_details_handler("chocolate 30"))
+    # print(get_nutrition_from_details_handler("chocolate"))
+    # print(get_nutrition_from_details_handler("100"))
+    # print(get_nutrition_from_details_handler("home fries 100"))
+    # print(get_nutrition_from_details_handler("homde fries 100"))
