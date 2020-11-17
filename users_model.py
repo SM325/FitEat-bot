@@ -106,9 +106,8 @@ def is_exist_user_day(user_name, req_date):
     res = False
     date_for_query = req_date.strftime("%Y-%m-%d")
     query = '''SELECT * 
-    FROM user as u join user_day as ud 
-    on u.user_name = ud.user_name
-    where u.user_name = '{}' and ud.date_of_day = '{}' '''.format(user_name, date_for_query)
+    FROM user_day as ud 
+    where ud.user_name = '{}' and ud.date_of_day = '{}' '''.format(user_name, date_for_query)
     items = do_query(query)
     if items:
         res = True
@@ -125,9 +124,9 @@ def add_user_day(user_name, req_date):
 
 
 def get_user_day(user_name, req_date):
+    date_for_query = req_date.strftime("%Y-%m-%d")
     res = None
-    query = "SELECT * FROM user_day as ud where ud.user_name = '{}' and ud.date_of_day = '{}'".format(user_name,
-                                                                                                      req_date)
+    query = "SELECT * FROM user_day as ud where ud.user_name = '{}' and ud.date_of_day = '{}'".format(user_name, date_for_query)
     items = do_query(query)
     if items:
         res = items[0]

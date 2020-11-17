@@ -1,7 +1,6 @@
--- CREATE database healthy_app;
+ -- CREATE database healthy_app;
 
--- USE healthy_app; 
-drop database  healthy_app;
+ USE healthy_app; 
  -- drop TABLE user_day;
 --  drop TABLE user;
 
@@ -21,17 +20,18 @@ drop database  healthy_app;
 --     );
 
 
--- CREATE TABLE user_day(
---     user_name varchar(50),
---     date_of_day date,
---     calories float,
---     fat float,
---     carb float,
---     protein float,
+CREATE TABLE user_day(
+    user_name varchar(50),
+    date_of_day date,
+    calories float,
+    fat float,
+    carb float,
+    protein float,
 
---     PRIMARY KEY (user_name, date_of_day),
+    PRIMARY KEY (user_name, date_of_day),
 
---     FOREIGN KEY(user_name) REFERENCES user(user_name)
--- );
+    FOREIGN KEY(user_name) REFERENCES user(user_name)
+);
 
---  select * from user
+  select * from user
+

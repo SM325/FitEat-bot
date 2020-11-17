@@ -1,5 +1,6 @@
 import users_model
 import calculations
+import datetime
 
 
 class Message:
@@ -14,6 +15,9 @@ class Message:
         self.date = data['date']
         if not self.__is_exist_user():
             self.__store_user()
+        if self.is_exist_init_user():
+            if not self.is_exist_user_day(datetime.datetime.now()):
+                self.add_user_day(datetime.datetime.now())
 
     def get_full_name(self):
         return self.first_name + " " + self.last_name
@@ -38,3 +42,18 @@ class Message:
         protein = calculations.get_protein(birth_date, weight, height, gender)
         users_model.init_user(self.user_id, self.get_full_name(), birth_date, weight, height, calories, fats, crabs,
                               protein, gender)
+    
+    def is_exist_init_user(self):
+        return users_model.is_init_user(self.user_id)
+
+    def get_user_day(self, date):
+        return users_model.get_user_day(self.user_id, date)
+
+    def get_user(self):
+        return users_model.get_user(self.user_id)
+
+    def add_user_day(self, date):
+        return users_model.add_user_day(self.user_id, date)
+
+    def is_exist_user_day(self, date):
+        return users_model.is_exist_user_day(self.user_id, date)
