@@ -66,8 +66,8 @@ def get_wrong_msg(message):
 
 
 def get_handler(message, user_name, next_action):
-    # if message.incoming_message == '/start':
-    return next_action["pre_start"]
+    if message.incoming_message == '/start':
+        return next_action["pre_start"]
     pre_state = message.get_pre_state()
     if not pre_state:
         return get_wrong_msg

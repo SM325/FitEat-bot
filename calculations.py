@@ -15,7 +15,10 @@ def get_nutritions_by_weight(fields, weight_user):
 
 
 def age_by_birthday(bday):
-    return datetime.datetime.now().year - datetime.datetime(bday).year
+    print(bday, type(bday))
+    datetime_object = datetime.datetime.strptime(bday, '%Y-%m-%d')
+    print(datetime_object)
+    return datetime.datetime.now().year - datetime_object.year
 
 
 def get_calories(birth_date, weight, height, gender):
