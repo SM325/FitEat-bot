@@ -13,6 +13,7 @@ class Message:
         self.date = data['date']
         if not self.__is_exist_user():
             self.__store_user()
+        self.pre_state = self.__get_pre_state()
 
     def get_full_name(self):
         return self.first_name + " " + self.last_name
@@ -22,3 +23,10 @@ class Message:
 
     def __store_user(self):
         users_model.add_user_without_init(self.user_id, self.get_full_name())
+
+    def __get_pre_state(self):
+        pre_state = users_model.get_user(self.user_id).get("current_state")
+        return pre_state
+
+    def update_current_state(self, cur_state):
+        pass
