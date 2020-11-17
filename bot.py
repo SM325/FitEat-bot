@@ -49,5 +49,6 @@ def get_bot():
     bot.add_next_action("/start", {"/details": routing.details_handler, "/add" : routing.add_handler, "/update": routing.update_handler, "/getBMI": routing.getBMI_handler})
     bot.add_next_action("/details", routing.get_nutrition_from_details_handler)
     bot.add_next_action("/update", routing.update_the_user_details_handler)
+    bot.add_next_action("/add", routing.add_nutrition_to_database_handler)
     Bot.init_webhook(TELEGRAM_INIT_WEBHOOK_URL)
     return bot

@@ -1,5 +1,6 @@
 from api_nutrition import get_nutritional_values
 import users_model
+import datetime
 
 def start_handler(message):
     start_menu = '/start - return to the menu'
@@ -28,12 +29,14 @@ def update_handler(message):
     message.update_current_state("/update")
     return msg
 
-def add_nutrition_to_database(message):
+def add_nutrition_to_database_handler(message):
     nutritions = get_nutritions(message)
     if not nutritions:
         return get_wrong_msg(message)
-    users_model.update_nutrition(message.user_id, message.date, nutritions['calories'], nutritions['fat'], nutritions['carb'], nutritions['protein'])
-
+    insertion_ok = users_model.update_nutrition(message.user_id, datetime.datetime.now(), nutritions['calories'], nutritions['fat'], nutritions['carb'], nutritions['protein'])
+    if insertion_ok:
+        return "OK, I add {}".format(message.incoming_message)
+    return "I can't add"
 
 def get_nutrition_from_details_handler(message):
     nutritions = get_nutritions(message)

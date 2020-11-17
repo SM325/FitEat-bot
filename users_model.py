@@ -125,9 +125,10 @@ def add_user_day(user_name, req_date):
 
 
 def get_user_day(user_name, req_date):
+    date_for_query = req_date.strftime("%Y-%m-%d")
     res = None
     query = "SELECT * FROM user_day as ud where ud.user_name = '{}' and ud.date_of_day = '{}'".format(user_name,
-                                                                                                      req_date)
+                                                                                                      date_for_query)
     items = do_query(query)
     if items:
         res = items[0]
