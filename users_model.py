@@ -26,14 +26,6 @@ def do_query_with_change(query_str):
         return True
 
 
-# def add_user(user_name_, name_, birth_date_, weight_, height_, max_calories_, max_fat_, max_crab_, max_protein_, current_state_ = "main"):
-#     date_for_query = birth_date_.strftime("%Y-%m-%d")
-#     query = "INSERT INTO user VALUES('{}', '{}', '{}', {}, {}, {}, {}, {}, {}, '{}')".format(user_name_, name_, date_for_query, weight_, height_, max_calories_, max_fat_, max_crab_, max_protein_, current_state_)
-#     succ = do_query_with_change(query) 
-#     if succ:
-#         return True
-#     return False
-
 def add_user_without_init(user_name_, name_):
     default_state = "pre_start"
     query = "INSERT INTO user VALUES('{}', '{}', 0, '1001-01-01', 0, 0, 0, 0, 0, 0, '{}')".format(user_name_, name_,
@@ -131,9 +123,14 @@ def add_user_day(user_name, req_date):
 
 def get_user_day(user_name, req_date):
     res = None
-    query = "SELECT * FROM user_day as ud where ud.user_name = '{}' and ud.date_of_day = '{}'".format(user_name,
-                                                                                                      req_date)
+    query = "SELECT * FROM user_day as ud where ud.user_name = '{}' and ud.date_of_day = '{}'".format(user_name, req_date)
     items = do_query(query)
     if items:
         res = items[0]
     return res
+
+def update_user_state(user_name, cur_state):
+    state_res = update_user_str_field(user_name, 'current_state', cur_state)                                                                                               
+    if state_res:
+        return True
+    return False
