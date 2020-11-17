@@ -142,9 +142,10 @@ def update_user_state(user_name, cur_state):
 
 
 def update_user_day_non_str_field(user_name_, req_date_, field_name, field_value):
+    date_for_query = req_date_.strftime("%Y-%m-%d")
     query = '''UPDATE user_day
             SET {} = {}
-            where user_name = '{}' and date_of_day = {} '''.format(field_name, field_value, user_name_, req_date_)
+            where user_name = '{}' and date_of_day = '{}' '''.format(field_name, field_value, user_name_, date_for_query)
     return do_query_with_change(query)
 
 
@@ -158,6 +159,3 @@ def update_nutrition(user_name_, req_date_, calories, fat, carb, protein):
     protein_res = update_user_day_non_str_field(user_name_, req_date_, 'protein', curr_user_day.get('protein') + protein)
 
     return calories_res and fat_res and crab_res and protein_res
-
-print(add_user_day("515506846", datetime.datetime(2020, 11, 17)))
-# print(update_nutrition(515506846, datetime.datetime(2020, 11, 17), 100, 10, 20, 60))
