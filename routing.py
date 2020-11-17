@@ -1,5 +1,6 @@
 from api_nutrition import get_nutritional_values
 import users_model
+import calculations
 
 def start_handler(message):
     start_menu = '/start - return to the menu'
@@ -97,4 +98,15 @@ def get_handler(message, user_name, next_action):
     return func
 
 def getBMI_handler(message):
-    pass
+    user = users_model.get_user(message.user_id)
+    if user.get('is_init') == 1:
+        bmi = calculations.calculate_bmi(user['weight'], user['height'])
+        normal_weight = calculations.calculate_normal_weight(user['weight'])
+        bmi_print = "your BMI is: " + str(bmi)
+        normal_weight_print = "\nNormal weight for your height is:\n" + str(normal_weight[0]) + " to " + str(normal_weight[1])
+        bmi_category = calculations.get_bmi_category(bmi)
+        return bmi_print + "\n" + bmi_category + "\n" + normal_weight_print
+    else:
+        msg = "You have to update your details, please enter /update to update"
+        message.update_current_state("/start")
+        return msg

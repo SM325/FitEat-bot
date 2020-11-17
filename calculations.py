@@ -43,5 +43,19 @@ def get_fats(birth_date, weight, height, gender):
 
 
 def calculate_bmi(weight, height):
-    return round(weight / (height ** 2), 2)
+    return round((weight) / (height ** 2), 2)
 
+def calculate_normal_weight(height):
+    start_weight =  round((18.5 * ((height ** 2) / 1000)), 2)
+    end_weight = round((24.9 * ((height ** 2) / 1000)) , 2)
+    return start_weight, end_weight
+
+def get_bmi_category(bmi):
+    if bmi < 18.5:
+        return "You are underweight, you have to eat more..."
+    elif bmi < 24.9:
+        return "Your weight is Normal, Well done!!!"
+    elif bmi < 29.9:
+        return "You are overweight, please try to eat healthier"
+    else:
+        return "You suffer from obesity.... \nyou should change your lifestyle, I'm sure you can do this!"
