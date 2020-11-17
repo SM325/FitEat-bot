@@ -1,11 +1,13 @@
 from api_nutrition import get_nutritional_values
+import datetime
 
 
 def start_handler(message):
     start_menu = '/start - return to the menu'
     details_menu = '/details - return to show details'
     update_menu = '/update - update your details'
-    msg = "hi {} \n menu :\n{}\n{}\n{}".format(message.get_full_name(), start_menu, details_menu, update_menu)
+    daily_state_menu = '/daily_state - display your daily state'
+    msg = "Hi {} \n menu :\n{}\n{}\n{}\n{}".format(message.get_full_name(), start_menu, details_menu, update_menu, daily_state_menu)
 
     message.update_current_state("/start")
     return msg
@@ -25,6 +27,29 @@ def add_handler(message):
 
 def update_handler(message):
     msg = "Please enter your birth date (YYYY-MM-DD), weight(kg), height(meter) and gender(male/female)"
+    message.update_current_state("/update")
+    return msg
+
+def daily_state_handler(message):
+    cur_date = datetime.datetime.now()
+    if not message.is_exist_init_user():
+        message.update_current_state("/start")
+        # go to start hendler
+        return "Your details is already init.\n Please go to update before from /start"
+    
+    daily_details = message.get_user_day(cur_date)
+    user_details = message.get_user()
+
+    carb_dif = user_details.get("max_carb") - daily_details.get("carb")
+    calories_dif = user_details.get("max_calories") - daily_details.get("calories")
+    fat_dif = user_details.get("max_fat") - daily_details.get("fat")
+    protein_dif = user_details.get("max_protein") - daily_details.get("protein")
+
+    msg = "carb dif "+ (str)(carb_dif)
+    msg += "calories_dif "+ (str)(calories_dif)
+    msg += "fat_dif "+ (str)(fat_dif)
+    msg += "protein_dif dif "+ (str)(protein_dif)
+
     message.update_current_state("/update")
     return msg
 
@@ -66,7 +91,7 @@ def update_the_user_details_handler(message):
         height = (float)(details[2])
         gender = details[3]
         message.update_user_details(birth_date, weight, height, gender)
-        msg = "good, i update your details"
+        msg = "good, I update your details"
         message.update_current_state("update_user_details")
     return msg
 
