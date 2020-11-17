@@ -12,19 +12,19 @@ def start_handler(message):
 
 
 def details_handler(message):
-    msg = "please insert food..."
+    msg = "please insert food and amount(g.)"
     message.update_current_state("/details")
     return msg
 
 
 def add_handler(message):
-    msg = "please insert food..."
+    msg = "please insert food and amount(g.)"
     message.update_current_state("/add")
     return msg
 
 
 def update_handler(message):
-    msg = "Please enter your birth date, weight, height and gender"
+    msg = "Please enter your birth date (YYYY-MM-DD), weight(kg), height(meter) and gender(male/female)"
     message.update_current_state("/update")
     return msg
 
@@ -58,7 +58,7 @@ def display_nutritions_list(nutritions, weight):
 def update_the_user_details_handler(message):
     details = message.incoming_message.split()
     if len(details) != 4:
-        msg = "I cant read.\n Please enter your birth date, weight, height and gender"
+        msg = "I cant read.\n Please enter your birth date (YYYY-MM-DD), weight(k.g.), height(m.) and gender(male/female)"
     else:
         # validation!!!
         birth_date = details[0]
@@ -66,13 +66,13 @@ def update_the_user_details_handler(message):
         height = (float)(details[2])
         gender = details[3]
         message.update_user_details(birth_date, weight, height, gender)
-        msg = "update..."
-        message.update_current_state("update_user_details")  # ????
+        msg = "good, i update your details"
+        message.update_current_state("update_user_details")
     return msg
 
 
 def get_wrong_msg(message):
-    return "I can't understand.\nplease try again."
+    return "I can't understand.\nplease try again or enter /start to menu"
 
 
 def get_handler(message, user_name, next_action):

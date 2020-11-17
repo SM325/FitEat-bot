@@ -1,9 +1,9 @@
 import datetime
-from decimal import Decimal
+
 
 def get_nutritions_by_weight(fields, weight_user):
     weight_item = fields.get('nf_serving_weight_grams')
-    new_value = lambda v: round((v/weight_item) * weight_user, 2)
+    new_value = lambda v: round((v / weight_item) * weight_user, 2)
     item_dict = {
         'item_name': fields.get('item_name'),
         'calories': new_value(fields.get('nf_calories')),
@@ -16,6 +16,7 @@ def get_nutritions_by_weight(fields, weight_user):
 
 def age_by_birthday(bday):
     datetime_object = datetime.datetime.strptime(bday, '%Y-%m-%d')
+    print(datetime_object)
     return datetime.datetime.now().year - datetime_object.year
 
 
