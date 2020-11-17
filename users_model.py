@@ -123,9 +123,14 @@ def add_user_day(user_name, req_date):
 
 def get_user_day(user_name, req_date):
     res = None
-    query = "SELECT * FROM user_day as ud where ud.user_name = '{}' and ud.date_of_day = '{}'".format(user_name,
-                                                                                                      req_date)
+    query = "SELECT * FROM user_day as ud where ud.user_name = '{}' and ud.date_of_day = '{}'".format(user_name, req_date)
     items = do_query(query)
     if items:
         res = items[0]
     return res
+
+def update_user_state(user_name, cur_state):
+    state_res = update_user_str_field(user_name, 'current_state', cur_state)                                                                                               
+    if state_res:
+        return True
+    return False
