@@ -3,11 +3,14 @@ import users_model
 import datetime
 
 def start_handler(message):
-    start_menu = '/start - return to the menu'
-    details_menu = '/details - return to show details'
+    start_menu = '/start - display menu'
+    details_menu = '/details - display details of food'
     update_menu = '/update - update your details'
     daily_state_menu = '/daily_state - display your daily state'
-    msg = "Hi {} \n menu :\n{}\n{}\n{}\n{}".format(message.get_full_name(), start_menu, details_menu, update_menu, daily_state_menu)
+    add_food_menu = '/add - add food to your daily naturation'
+    get_bmi_menu = '/getBMI - display your BMI'
+    msg = "Hi {} \n menu :\n{}\n{}\n{}\n{}\n{}\n{}".format(message.get_full_name(), start_menu, details_menu, update_menu,
+     daily_state_menu, add_food_menu, get_bmi_menu)
 
     message.update_current_state("/start")
     return msg
@@ -34,9 +37,9 @@ def add_to_match_list(value, val_name, pos_details_list, neg_details_list, zero_
     if value == 0 :
         zero_details_list.append("{}\n".format(val_name))
     if value > 0:
-        pos_details_list.append("{} {}\n".format(value, val_name))
+        pos_details_list.append("{} {}\n".format(int(value), val_name))
     if value < 0:
-        neg_details_list.append("{} {}\n".format(-1 * value, val_name))
+        neg_details_list.append("{} {}\n".format(-1 * int(value), val_name))
 
 
 def daily_state_handler(message):
@@ -72,15 +75,15 @@ def daily_state_handler(message):
     if len(pos_list):
         for str_ in pos_list:
             pos_details += str_
-        msg = pos_details
+        msg += pos_details
     if len(nag_list):
         for str_ in nag_list:
             neg_details += str_
-        msg = neg_details
+        msg += neg_details
     if len(zero_list):
         for str_ in zero_list:
             zero_details += str_
-        msg = zero_details
+        msg += zero_details
 
     message.update_current_state("/update")
     return msg
