@@ -1,6 +1,6 @@
 from api_nutrition import get_nutritional_values
+import users_model
 import datetime
-
 
 def start_handler(message):
     start_menu = '/start - return to the menu'
@@ -85,25 +85,36 @@ def daily_state_handler(message):
     message.update_current_state("/update")
     return msg
 
+def add_nutrition_to_database_handler(message):
+    nutritions = get_nutritions(message)
+    if not nutritions:
+        return get_wrong_msg(message)
+    insertion_ok = users_model.update_nutrition(message.user_id, datetime.datetime.now(), nutritions['calories'], nutritions['fat'], nutritions['carb'], nutritions['protein'])
+    if insertion_ok:
+        return "OK, I add {}".format(message.incoming_message)
+    return "I can't add"
 
 def get_nutrition_from_details_handler(message):
+    nutritions = get_nutritions(message)
+    if not nutritions:
+        return get_wrong_msg(message)
+    return display_nutritions_list(nutritions)
+
+def get_nutritions(message):
     message_word = message.incoming_message.split(" ")
     if message_word[0].isdigit():
-        return get_wrong_msg(message)
+        return None
     if not message_word[-1].isdigit():
         weight = 100
         product = message.incoming_message
     else:
         weight = int(message_word[-1])
         product = " ".join(message_word[:-1])
-    nutritions = get_nutritional_values(product, weight)
-    if not nutritions:
-        return get_wrong_msg(message)
-    return display_nutritions_list(nutritions, weight)
+    return get_nutritional_values(product, weight)
 
-def display_nutritions_list(nutritions, weight):
-    nutritions_list = "Displays nutritional values for {}, {}g".format(nutritions['item_name'], str(weight))
-    nutritions_list += "\nCalories: " + str(nutritions['calories'])
+def display_nutritions_list(nutritions):
+    nutritions_list = "Displays nutritional values for: {}, {}g".format(nutritions['item_name'], nutritions['weight'])
+    nutritions_list += "\n\nCalories: " + str(nutritions['calories'])
     nutritions_list += "\nfat: " + str(nutritions['fat'])
     nutritions_list += "\ncarb: " + str(nutritions['carb'])
     nutritions_list += "\nprotein: " + str(nutritions['protein'])
@@ -143,3 +154,6 @@ def get_handler(message, user_name, next_action):
     else:
         func = next_action.get(pre_state, get_wrong_msg)
     return func
+
+def getBMI_handler(message):
+    pass
