@@ -1,8 +1,8 @@
 class Message:
 
     def __init__(self, data):
-        self.outgoing_message = None
-        self.incoming_messag = data['text'].lower()
+        # self.outgoing_message = None
+        self.incoming_message = data['text'].lower()
         self.chat_id = data['chat']['id']
         self.user_id = data['from']['id']
         self.first_name = data['from']['first_name']
