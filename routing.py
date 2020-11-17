@@ -30,23 +30,35 @@ def update_handler(message):
 
 
 def get_nutrition_from_details_handler(message):
+    # message_word = message.incoming_message.split(" ")
+    # if message_word[0].isdigit():
+    #     return get_wrong_msg(message)
+    # if not message_word[-1].isdigit():
+    #     weight = 100
+    #     product = message.incoming_message
+    # else:
+    #     weight = int(message_word[-1])
+    #     product = " ".join(message_word[:-1])
+    nutritions = get_nutritions(message)
+    if not nutritions:
+        return get_wrong_msg(message)
+    return display_nutritions_list(nutritions)
+
+def get_nutritions(message):
     message_word = message.incoming_message.split(" ")
     if message_word[0].isdigit():
-        return get_wrong_msg(message)
+        return None
     if not message_word[-1].isdigit():
         weight = 100
         product = message.incoming_message
     else:
         weight = int(message_word[-1])
         product = " ".join(message_word[:-1])
-    nutritions = get_nutritional_values(product, weight)
-    if not nutritions:
-        return get_wrong_msg(message)
-    return display_nutritions_list(nutritions, weight)
+    return get_nutritional_values(product, weight)
 
-def display_nutritions_list(nutritions, weight):
-    nutritions_list = "Displays nutritional values for {}, {}g".format(nutritions['item_name'], str(weight))
-    nutritions_list += "\nCalories: " + str(nutritions['calories'])
+def display_nutritions_list(nutritions):
+    nutritions_list = "Displays nutritional values for: {}, {}g".format(nutritions['item_name'], nutritions['weight'])
+    nutritions_list += "\n\nCalories: " + str(nutritions['calories'])
     nutritions_list += "\nfat: " + str(nutritions['fat'])
     nutritions_list += "\ncarb: " + str(nutritions['carb'])
     nutritions_list += "\nprotein: " + str(nutritions['protein'])
