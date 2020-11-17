@@ -1,6 +1,7 @@
 def start_handler(message):
     start_menu = '/start - return to the menu'
     details_menu = '/details - return to show details'
+    details_menu = '/update - update'
     msg = "hi {} \n menu :\n{}\n{}".format(message.get_full_name(), start_menu, details_menu)
 
     message.update_current_state("/start")
