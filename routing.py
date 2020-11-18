@@ -16,6 +16,7 @@ def start_handler(message):
     msg = "Hi {} \U0001F603 welcome!!\nI am Healthy-Bot \U0001F643\n\n{}{}{}{}{}{}{}".format(message.get_full_name(),description, start_menu, details_menu, update_menu,
      daily_state_menu, add_food_menu, get_bmi_menu)
 
+
     message.update_current_state("/start")
     return msg
 
@@ -34,21 +35,25 @@ def add_handler(message):
 
 def update_handler(message):
     if message.is_exist_init_user():
+
         msg = "Please enter your weight(kg) and height(meter)\nFor example: 80 1.80"
-        message.update_current_state("/update_weight_height") 
+        message.update_current_state("/update_weight_height")
     else:
         msg = "Please enter your age, weight(kg), height(meter) and gender(male/female)" \
               "\n For example: 27 80 1.80 male"
         message.update_current_state("/update")
     return msg
 
+
 def add_to_match_list(value, percent, val_name, pos_details_list, neg_details_list, zero_details_list):
-    if value == 0 :
+    if value == 0:
         zero_details_list.append("{}\n".format(val_name))
     if value > 0:
-        pos_details_list.append("{} {}, it is {}% of your daily amount \n".format(int(value), val_name, 100-int(percent)))
+        pos_details_list.append(
+            "{} {}, it is {}% of your daily amount \n".format(int(value), val_name, 100 - int(percent)))
     if value < 0:
-        neg_details_list.append("{} {}, it is {}% more then daily amount \n".format(-1 * int(value), val_name, int(percent)-100))
+        neg_details_list.append(
+            "{} {}, it is {}% more then daily amount \n".format(-1 * int(value), val_name, int(percent) - 100))
 
 
 def daily_state_handler(message):
@@ -58,7 +63,6 @@ def daily_state_handler(message):
         message.update_current_state("/start")
         # go to start hendler
         return "You have to update your details first, please enter /update to update"
-    
     daily_details = message.get_user_day(cur_date)
     user_details = message.get_user()
 
@@ -67,10 +71,10 @@ def daily_state_handler(message):
     fat_dif = user_details.get("max_fat") - daily_details.get("fat")
     protein_dif = user_details.get("max_protein") - daily_details.get("protein")
 
-    carb_percent = 100*daily_details.get("carb")/user_details.get("max_carb")
-    calories_percent = 100*daily_details.get("calories")/user_details.get("max_calories")
-    fat_percent = 100*daily_details.get("fat")/user_details.get("max_fat")
-    protein_percent = 100*daily_details.get("protein")/user_details.get("max_protein")
+    carb_percent = 100 * daily_details.get("carb") / user_details.get("max_carb")
+    calories_percent = 100 * daily_details.get("calories") / user_details.get("max_calories")
+    fat_percent = 100 * daily_details.get("fat") / user_details.get("max_fat")
+    protein_percent = 100 * daily_details.get("protein") / user_details.get("max_protein")
 
     pos_list = list()
     nag_list = list()
@@ -80,11 +84,10 @@ def daily_state_handler(message):
     neg_details = "You have exceeded: \n"
     zero_details = "You finish: \n"
 
-    add_to_match_list(carb_dif, carb_percent, "carbs",pos_list, nag_list, zero_list) 
-    add_to_match_list(calories_dif, calories_percent, "calories",pos_list, nag_list, zero_list) 
-    add_to_match_list(fat_dif, fat_percent, "fats",pos_list, nag_list, zero_list) 
-    add_to_match_list(protein_dif, protein_percent, "proteins",pos_list, nag_list, zero_list) 
-
+    add_to_match_list(calories_dif, calories_percent, "calories", pos_list, nag_list, zero_list)
+    add_to_match_list(carb_dif, carb_percent, "carbs", pos_list, nag_list, zero_list)
+    add_to_match_list(fat_dif, fat_percent, "fats", pos_list, nag_list, zero_list)
+    add_to_match_list(protein_dif, protein_percent, "proteins", pos_list, nag_list, zero_list)
 
     if len(pos_list):
         for str_ in pos_list:
@@ -102,23 +105,28 @@ def daily_state_handler(message):
     message.update_current_state("/start")
     return msg
 
+
 def add_nutrition_to_database_handler(message):
     nutritions = get_nutritions(message)
     if not nutritions:
         return get_wrong_msg(message)
-    insertion_ok = users_model.update_nutrition(message.user_id, datetime.datetime.now(), nutritions['calories'], nutritions['fat'], nutritions['carb'], nutritions['protein'])
+    insertion_ok = users_model.update_nutrition(message.user_id, datetime.datetime.now(), nutritions['calories'],
+                                                nutritions['fat'], nutritions['carb'], nutritions['protein'])
     if insertion_ok:
-#        message.update_current_state("/start")
+        #        message.update_current_state("/start")
         state_str = daily_state_handler(message)
         message.update_current_state("/add")
         return "OK, I added: '{}' to your daily nutrition \n\n{}".format(message.incoming_message, state_str)
     return get_wrong_msg(message)
 
+
 def get_nutrition_from_details_handler(message):
     nutritions = get_nutritions(message)
     if not nutritions:
         return get_wrong_msg(message)
-    return display_nutritions_list(nutritions)
+    res = get_recommendations(message, nutritions.get("calories"))
+    return display_nutritions_list(nutritions) + "\n" + res
+
 
 def get_nutritions(message):
     message_word = message.incoming_message.split(" ")
@@ -132,6 +140,7 @@ def get_nutritions(message):
         product = " ".join(message_word[:-1])
     return get_nutritional_values(product, weight)
 
+
 def display_nutritions_list(nutritions):
     nutritions_list = "Nutritional values for: {}, {}g:".format(nutritions['item_name'], nutritions['weight'])
     nutritions_list += "\n\nCalories: " + str(nutritions['calories'])
@@ -139,6 +148,7 @@ def display_nutritions_list(nutritions):
     nutritions_list += "\ncarb: " + str(nutritions['carb'])
     nutritions_list += "\nprotein: " + str(nutritions['protein'])
     return nutritions_list
+
 
 
 # def validate
@@ -159,6 +169,7 @@ def update_the_user_details_handler(message):
         msg = "good, I update your details"
         message.update_current_state("/start")
     return msg
+
 
 def update_the_user_weight_height_handler(message):
     details = message.incoming_message.split()
@@ -195,16 +206,32 @@ def get_handler(message, user_name, next_action):
         func = next_action.get(pre_state, get_wrong_msg)
     return func
 
+
 def getBMI_handler(message):
-    user = users_model.get_user(message.user_id)
+    user = message.get_user()
     message.update_current_state("/start")
     if message.is_exist_init_user():
         bmi = calculations.calculate_bmi(user['weight'], user['height'])
         normal_weight = calculations.calculate_normal_weight(user['height'])
         bmi_print = "your BMI is: " + str(bmi)
-        normal_weight_print = "\nNormal weight for your height is:\n" + str(normal_weight[0]) + " to " + str(normal_weight[1])
+        normal_weight_print = "\nNormal weight for your height is:\n" + str(normal_weight[0]) + " to " + str(
+            normal_weight[1])
         bmi_category = calculations.get_bmi_category(bmi)
         return bmi_print + "\n" + bmi_category + "\n" + normal_weight_print
     else:
         msg = "You have to update your details first, please enter /update to update"
         return msg
+
+
+def get_recommendations(message, calories):
+    user = message.get_user()
+    user_day = message.get_user_day(datetime.datetime.now())
+    if message.is_exist_init_user():
+        if user_day.get("calories") + calories <= user.get("max_calories"):
+            return "\nOK. Looks like you can eat it"
+        else:
+            return "\nSorry, This food will make you exceed your daily calories"
+    else:
+        msg = "\nI'm missing details so I can't give you recommendations.\ngo to /update"
+        return msg
+
