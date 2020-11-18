@@ -22,14 +22,14 @@ def start_handler(message):
 
 
 def details_handler(message):
-    msg = "Please insert food and amount(g.)\n<b>For example:</b> <i>chocolate 30</i>"
+    msg = "What do you want to eat and how much(g.)?\n<b>For example:</b> <i>chocolate 30</i>"
     message.update_current_state("/ask")
     return msg
 
 
 def add_handler(message):
     if message.is_exist_init_user():
-        msg = "Please insert food and amount(g.)\n For example: chocolate 30"
+        msg = "What food did you eat and how much(g.)?\n For example: chocolate 30"
         message.update_current_state("/add")
     else:
         msg = "I'm missing your details.\ngo to /update"
@@ -40,10 +40,10 @@ def add_handler(message):
 def update_handler(message):
     if message.is_exist_init_user():
 
-        msg = "Please enter your weight(kg) and height(meter)\nFor example: 80 1.80"
+        msg = "What is your weight(kg) and height(meter)\nFor example: 80 1.80"
         message.update_current_state("/update_weight_height")
     else:
-        msg = "Please enter your age, weight(kg), height(meter) and gender(male/female)" \
+        msg = "What is your age, weight(kg), height(meter) and gender(male/female)" \
               "\n For example: 27 80 1.80 male"
         message.update_current_state("/update")
     return msg
@@ -66,7 +66,8 @@ def daily_state_handler(message):
     if not message.is_exist_init_user():
         message.update_current_state("/start")
         # go to start hendler
-        return "You have to update your details first, please enter /update to update"
+        # I'm missing your details to give recommendations.\nGo to /update to update
+        return "I'm missing your details, go to /update to update"
     daily_details = message.get_user_day(cur_date)
     user_details = message.get_user()
 
@@ -245,7 +246,7 @@ def getBMI_handler(message):
         bmi_category = calculations.get_bmi_category(bmi)
         return bmi_print + "\n" + bmi_category + "\n" + normal_weight_print
     else:
-        msg = "You have to update your details first, please enter /update to update"
+        msg = "I'm missing your details, go to /update to update"
         return msg
 
 
