@@ -120,7 +120,7 @@ def add_nutrition_to_database_handler(message):
         #        message.update_current_state("/start")
         state_str = daily_state_handler(message)
         message.update_current_state("/add")
-        return "OK, I added: '{}' to your daily nutrition \n\n{}".format(message.incoming_message, state_str)
+        return "OK, I added: {}g to your daily nutrition \n\n{}".format(message.incoming_message, state_str)
     return get_wrong_msg(message)
 
 
@@ -155,16 +155,24 @@ def display_nutritions_list(nutritions):
 
 
 
-# def validate
-
+def validate_all_user_details (details):
+    res = True
+    try:
+        tmp = float(details[0])
+        tmp = float(details[1])
+        tmp = float(details[2])
+        if not (details[3] in ['male', 'female']):
+            res = False
+    except ValueError:
+        res = False
+    return res
 
 def update_the_user_details_handler(message):
     details = message.incoming_message.split()
-    if len(details) != 4:
+    if len(details) != 4 or not validate_all_user_details(details):
         msg = "I can't understand you \U0001F622\n Please enter your age, weight(kg), height(meter) and gender(male/female)" \
               "in this format\n For example: 27 80 1.80 male"
     else:
-        # validation!!!
         age = float(details[0])
         weight = (float)(details[1])
         height = (float)(details[2])
@@ -180,14 +188,21 @@ def update_the_user_details_handler(message):
         message.update_current_state("/start")
     return msg
 
+def validate_weight_height_details (details):
+    res = True
+    try:
+        tmp = float(details[0])
+        tmp = float(details[1])
+    except ValueError:
+        res = False
+    return res
 
 def update_the_user_weight_height_handler(message):
     details = message.incoming_message.split()
-    if len(details) != 2:
+    if len(details) != 2 or not validate_weight_height_details(details):
         msg = "I can't understand you \U0001F622\n Please enter your weight(kg) and height(meter) in this format" \
               "\n For example: 80 1.80"
     else:
-        # validation!!!
         user_details = message.get_user()
         birth_date = user_details.get("birth_date").strftime("%Y-%m-%d")
         weight = (float)(details[0])
