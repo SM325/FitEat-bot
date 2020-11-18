@@ -5,44 +5,46 @@ import datetime
 
 
 def start_handler(message):
-    description = "Healthy-Bot will help you keep track of your daily nutrition " \
-                  "and give you recommendations according to your current state\n\n"
+    description = "I will help you keep track of your daily nutrition " \
+                  "and give you recommendations according to your current state.\n\n"
     start_menu = '/start - display menu\n\n'
-    details_menu = '/ask - view product nutritional values\n\n'
+    details_menu = '/ask - view a product nutritional values and recommendations\n\n'
     update_menu = '/update - update your details (for better results)\n\n'
     daily_state_menu = '/daily_state - view your daily state\n\n'
     add_food_menu = '/add - add a product you have eaten to your daily menu\n\n'
     get_bmi_menu = '/getBMI - view your BMI'
-    msg = "Hi {} \U0001F603\nWelcome to Healthy-Bot!\n\n{}{}{}{}{}{}{}".format(message.get_full_name(), description,
-                                                                               start_menu, details_menu, update_menu,
-                                                                               daily_state_menu, add_food_menu,
-                                                                               get_bmi_menu)
+    msg = "Hi {} \U0001F603 welcome!!\nI am Healthy-Bot \U0001F643\n\n{}{}{}{}{}{}{}".format(message.get_full_name(),description, start_menu, details_menu, update_menu,
+     daily_state_menu, add_food_menu, get_bmi_menu)
+
 
     message.update_current_state("/start")
     return msg
 
 
 def details_handler(message):
-    msg = "please insert food and amount(g.)"
+    msg = "Please insert food and amount(g.)\n For example: chocolate 30"
     message.update_current_state("/ask")
     return msg
 
 
 def add_handler(message):
     if message.is_exist_init_user():
-        msg = "please insert food and amount(g.)"
+        msg = "Please insert food and amount(g.)\n For example: chocolate 30"
         message.update_current_state("/add")
     else:
         msg = "I'm missing your details.\ngo to /update"
+        message.update_current_state("/start")
     return msg
 
 
 def update_handler(message):
     if message.is_exist_init_user():
-        msg = "Please enter your weight(kg) and height(meter) "
+
+        msg = "Please enter your weight(kg) and height(meter)\nFor example: 80 1.80"
         message.update_current_state("/update_weight_height")
     else:
-        msg = "Please enter your birth date (YYYY-MM-DD), weight(kg), height(meter) and gender(male/female)"
+        msg = "Please enter your age, weight(kg), height(meter) and gender(male/female)" \
+              "\n For example: 27 80 1.80 male"
         message.update_current_state("/update")
     return msg
 
@@ -64,8 +66,7 @@ def daily_state_handler(message):
     if not message.is_exist_init_user():
         message.update_current_state("/start")
         # go to start hendler
-        return "Your details is already init.\n Please go to /update"
-
+        return "You have to update your details first, please enter /update to update"
     daily_details = message.get_user_day(cur_date)
     user_details = message.get_user()
 
@@ -119,7 +120,7 @@ def add_nutrition_to_database_handler(message):
         #        message.update_current_state("/start")
         state_str = daily_state_handler(message)
         message.update_current_state("/add")
-        return "OK, I add {}\n\n{}".format(message.incoming_message, state_str)
+        return "OK, I added: '{}' to your daily nutrition \n\n{}".format(message.incoming_message, state_str)
     return get_wrong_msg(message)
 
 
@@ -145,7 +146,7 @@ def get_nutritions(message):
 
 
 def display_nutritions_list(nutritions):
-    nutritions_list = "Displays nutritional values for: {}, {}g".format(nutritions['item_name'], nutritions['weight'])
+    nutritions_list = "Nutritional values for: {}, {}g:".format(nutritions['item_name'], nutritions['weight'])
     nutritions_list += "\n\nCalories: " + str(nutritions['calories'])
     nutritions_list += "\nfat: " + str(nutritions['fat'])
     nutritions_list += "\ncarb: " + str(nutritions['carb'])
@@ -153,10 +154,15 @@ def display_nutritions_list(nutritions):
     return nutritions_list
 
 
+
+# def validate
+
+
 def update_the_user_details_handler(message):
     details = message.incoming_message.split()
     if len(details) != 4:
-        msg = "I cant read.\n Please enter your age, weight(k.g.), height(m.) and gender(male/female)"
+        msg = "I can't understand you \U0001F622\n Please enter your age, weight(kg), height(meter) and gender(male/female)" \
+              "in this format\n For example: 27 80 1.80 male"
     else:
         # validation!!!
         age = float(details[0])
@@ -178,7 +184,8 @@ def update_the_user_details_handler(message):
 def update_the_user_weight_height_handler(message):
     details = message.incoming_message.split()
     if len(details) != 2:
-        msg = "I cant read.\n Please enter your weight(k.g.) and height(m.)"
+        msg = "I can't understand you \U0001F622\n Please enter your weight(kg) and height(meter) in this format" \
+              "\n For example: 80 1.80"
     else:
         # validation!!!
         user_details = message.get_user()
@@ -193,7 +200,8 @@ def update_the_user_weight_height_handler(message):
 
 
 def get_wrong_msg(message):
-    return "I can't understand.\nplease try again or enter /start to menu"
+    return "Sorry, I can't understand you \U0001F622 \nPlease try again or enter /start to go " \
+           "to the main menu"
 
 
 def get_handler(message, user_name, next_action):
@@ -221,7 +229,7 @@ def getBMI_handler(message):
         bmi_category = calculations.get_bmi_category(bmi)
         return bmi_print + "\n" + bmi_category + "\n" + normal_weight_print
     else:
-        msg = "You have to update your details, please enter /update to update"
+        msg = "You have to update your details first, please enter /update to update"
         return msg
 
 
@@ -237,3 +245,4 @@ def get_recommendations(message, calories):
         message.update_current_state("/start")
         msg = "\nI'm missing details so I can't give you recommendations.\ngo to /update"
         return msg
+
