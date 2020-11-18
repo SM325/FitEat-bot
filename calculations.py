@@ -1,5 +1,5 @@
 import datetime
-
+# import emoji
 
 def get_nutritions_by_weight(fields, weight_user):
     weight_item = fields.get('nf_serving_weight_grams')
@@ -46,8 +46,8 @@ def calculate_bmi(weight, height):
     return round((weight) / (height ** 2), 2)
 
 def calculate_normal_weight(height):
-    start_weight =  round(((18.5 * (height ** 2)) / 1000), 2)
-    end_weight = round(((24.9 * (height ** 2)) / 1000) , 2)
+    start_weight =  round((18.5 * (height ** 2)), 2)
+    end_weight = round((24.9 * (height ** 2)) , 2)
     return start_weight, end_weight
 
 def get_bmi_category(bmi):
@@ -56,6 +56,6 @@ def get_bmi_category(bmi):
     elif bmi < 24.9:
         return "Your weight is Normal, Well done!!!"
     elif bmi < 29.9:
-        return "You are overweight, please try to eat healthier"
+        return "You are overweight, please try to eat healthier \U0001F601 \U0001f600"
     else:
         return "You suffer from obesity.... \nyou should change your lifestyle, I'm sure you can do this!"
