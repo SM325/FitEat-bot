@@ -35,13 +35,13 @@ def update_handler(message):
     message.update_current_state("/update")
     return msg
 
-def add_to_match_list(value, val_name, pos_details_list, neg_details_list, zero_details_list):
+def add_to_match_list(value, percent, val_name, pos_details_list, neg_details_list, zero_details_list):
     if value == 0 :
         zero_details_list.append("{}\n".format(val_name))
     if value > 0:
-        pos_details_list.append("{} {}\n".format(int(value), val_name))
+        pos_details_list.append("{} {}, it is {}% of your daily amount \n".format(int(value), val_name, 100-int(percent)))
     if value < 0:
-        neg_details_list.append("{} {}\n".format(-1 * int(value), val_name))
+        neg_details_list.append("{} {}, it is {}% more then daily amount \n".format(-1 * int(value), val_name, int(percent)-100))
 
 
 def daily_state_handler(message):
@@ -50,7 +50,7 @@ def daily_state_handler(message):
     if not message.is_exist_init_user():
         message.update_current_state("/start")
         # go to start hendler
-        return "Your details is already init.\n Please go to update from /start"
+        return "Your details is already init.\n Please go to /update"
     
     daily_details = message.get_user_day(cur_date)
     user_details = message.get_user()
@@ -60,18 +60,23 @@ def daily_state_handler(message):
     fat_dif = user_details.get("max_fat") - daily_details.get("fat")
     protein_dif = user_details.get("max_protein") - daily_details.get("protein")
 
+    carb_percent = 100*daily_details.get("carb")/user_details.get("max_carb")
+    calories_percent = 100*daily_details.get("calories")/user_details.get("max_calories")
+    fat_percent = 100*daily_details.get("fat")/user_details.get("max_fat")
+    protein_percent = 100*daily_details.get("protein")/user_details.get("max_protein")
+
     pos_list = list()
     nag_list = list()
     zero_list = list()
 
-    pos_details = "You have: \n"
-    neg_details = "You over: \n"
+    pos_details = "You have left: \n"
+    neg_details = "You have exceeded: \n"
     zero_details = "You finish: \n"
 
-    add_to_match_list(carb_dif, "carbs",pos_list, nag_list, zero_list) 
-    add_to_match_list(calories_dif, "calories",pos_list, nag_list, zero_list) 
-    add_to_match_list(fat_dif, "fats",pos_list, nag_list, zero_list) 
-    add_to_match_list(protein_dif, "proteins",pos_list, nag_list, zero_list) 
+    add_to_match_list(carb_dif, carb_percent, "carbs",pos_list, nag_list, zero_list) 
+    add_to_match_list(calories_dif, calories_percent, "calories",pos_list, nag_list, zero_list) 
+    add_to_match_list(fat_dif, fat_percent, "fats",pos_list, nag_list, zero_list) 
+    add_to_match_list(protein_dif, protein_percent, "proteins",pos_list, nag_list, zero_list) 
 
 
     if len(pos_list):
@@ -87,7 +92,7 @@ def daily_state_handler(message):
             zero_details += str_
         msg += zero_details
 
-    message.update_current_state("/update")
+    message.update_current_state("/start")
     return msg
 
 def add_nutrition_to_database_handler(message):
@@ -96,8 +101,9 @@ def add_nutrition_to_database_handler(message):
         return get_wrong_msg(message)
     insertion_ok = users_model.update_nutrition(message.user_id, datetime.datetime.now(), nutritions['calories'], nutritions['fat'], nutritions['carb'], nutritions['protein'])
     if insertion_ok:
+#        message.update_current_state("/start")
         return "OK, I add {}".format(message.incoming_message)
-    return "I can't add"
+    return get_wrong_msg(message)
 
 def get_nutrition_from_details_handler(message):
     nutritions = get_nutritions(message)
@@ -141,6 +147,7 @@ def update_the_user_details_handler(message):
         message.update_user_details(birth_date, weight, height, gender)
         msg = "good, I update your details"
         message.update_current_state("update_user_details")
+        message.update_current_state("/start")
     return msg
 
 
@@ -162,6 +169,7 @@ def get_handler(message, user_name, next_action):
 
 def getBMI_handler(message):
     user = users_model.get_user(message.user_id)
+    message.update_current_state("/start")
     if message.is_exist_init_user():
         bmi = calculations.calculate_bmi(user['weight'], user['height'])
         normal_weight = calculations.calculate_normal_weight(user['weight'])
@@ -171,5 +179,4 @@ def getBMI_handler(message):
         return bmi_print + "\n" + bmi_category + "\n" + normal_weight_print
     else:
         msg = "You have to update your details, please enter /update to update"
-        message.update_current_state("/start")
         return msg
