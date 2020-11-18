@@ -141,6 +141,7 @@ def display_nutritions_list(nutritions):
     return nutritions_list
 
 
+# def validate
 
 
 def update_the_user_details_handler(message):
