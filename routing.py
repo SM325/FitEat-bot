@@ -5,14 +5,14 @@ import datetime
 
 
 def start_handler(message):
-    description = "<i>I will help you keep track of your daily nutrition " \
-                  "and give you recommendations according to your current state.\n\n</i>"
-    start_menu = '/start - display menu\n\n'
-    details_menu = '/ask - view a product nutritional values and recommendations\n\n'
-    update_menu = '/update - update your details (for better results)\n\n'
-    daily_state_menu = '/daily_state - view your daily state\n\n'
-    add_food_menu = '/add - add a product you have eaten to your daily menu\n\n'
-    get_bmi_menu = '/getBMI - view your BMI'
+    description = "I will help you keep track of your daily nutrition " \
+                  "and give you recommendations according to your current state.\n\n"
+    start_menu = '/start - <i>display menu</i>\n\n'
+    details_menu = '/ask - <i>view a product nutritional values and recommendations</i>\n\n'
+    update_menu = '/update - <i>update your details (for better results)</i>\n\n'
+    daily_state_menu = '/daily_state - <i>view your daily state</i>\n\n'
+    add_food_menu = '/add - <i>add a product you have eaten to your daily menu</i>\n\n'
+    get_bmi_menu = '/getBMI - <i>view your BMI</i>'
     msg = "<b>Hi {} \U0001F603 welcome!!\nI am Healthy-Bot \U0001F643\n\n</b>{}{}{}{}{}{}{}".format(message.get_full_name(),description, start_menu, details_menu, update_menu,
      daily_state_menu, add_food_menu, get_bmi_menu)
 
@@ -22,7 +22,7 @@ def start_handler(message):
 
 
 def details_handler(message):
-    msg = "Please insert food and amount(g.)\n For example: chocolate 30"
+    msg = "Please insert food and amount(g.)\n<b>For example:</b> <i>chocolate 30</i>"
     message.update_current_state("/ask")
     return msg
 
@@ -54,14 +54,14 @@ def add_to_match_list(value, percent, val_name, pos_details_list, neg_details_li
         zero_details_list.append("{}\n".format(val_name))
     if value > 0:
         pos_details_list.append(
-            "{} {}, it is {}% of your daily amount \n".format(int(value), val_name, 100 - int(percent)))
+            "       {} {}  ==> 	{}% of your daily amount \n".format(int(value), val_name, 100 - int(percent)))
     if value < 0:
         neg_details_list.append(
-            "{} {}, it is {}% more then daily amount \n".format(-1 * int(value), val_name, int(percent) - 100))
+            "       {} {}  ==>   {}% more then daily amount \n".format(-1 * int(value), val_name, int(percent) - 100))
 
 
 def daily_state_handler(message):
-    msg = "Your today status:\n"
+    msg = "<b>Your nutritional values status:</b>\n\n"
     cur_date = datetime.datetime.now()
     if not message.is_exist_init_user():
         message.update_current_state("/start")
@@ -83,9 +83,10 @@ def daily_state_handler(message):
     pos_list = list()
     nag_list = list()
     zero_list = list()
-
-    pos_details = "You have left: \n"
-    neg_details = "You have exceeded: \n"
+	
+#\U00002795
+    pos_details = "\U00002714 <i>The nutritional values you have left:</i> \n"
+    neg_details = "\U0000274C	 <i>The nutritional values you have exceeded:</i>\n"
     zero_details = "You finish: \n"
 
     add_to_match_list(calories_dif, calories_percent, "calories", pos_list, nag_list, zero_list)
@@ -96,15 +97,15 @@ def daily_state_handler(message):
     if len(pos_list):
         for str_ in pos_list:
             pos_details += str_
-        msg += pos_details
+        msg += pos_details + "\n\n"
     if len(nag_list):
         for str_ in nag_list:
             neg_details += str_
-        msg += neg_details
-    if len(zero_list):
-        for str_ in zero_list:
-            zero_details += str_
-        msg += zero_details
+        msg += neg_details + "\n"
+    # if len(zero_list):
+    #     for str_ in zero_list:
+    #         zero_details += str_
+    #     msg += zero_details
 
     message.update_current_state("/start")
     return msg
@@ -146,11 +147,11 @@ def get_nutritions(message):
 
 
 def display_nutritions_list(nutritions):
-    nutritions_list = "Nutritional values for: {}, {}g:".format(nutritions['item_name'], nutritions['weight'])
-    nutritions_list += "\n\nCalories: " + str(nutritions['calories'])
-    nutritions_list += "\nfat: " + str(nutritions['fat'])
-    nutritions_list += "\ncarb: " + str(nutritions['carb'])
-    nutritions_list += "\nprotein: " + str(nutritions['protein'])
+    nutritions_list = "<b><ins>Nutritional values for:</ins></b> {}, {}g".format(nutritions['item_name'], nutritions['weight'])
+    nutritions_list += "\n\n<b>Calories:</b> " + str(nutritions['calories'])
+    nutritions_list += "\n<b>Fat:</b> " + str(nutritions['fat'])
+    nutritions_list += "\n<b>Carb:</b> " + str(nutritions['carb'])
+    nutritions_list += "\n<b>Protein:</b> " + str(nutritions['protein'])
     return nutritions_list
 
 
@@ -184,7 +185,7 @@ def update_the_user_details_handler(message):
         birth_date = calculations.birthday_by_age(age)
         str_birth_date =  birth_date.strftime("%Y-%m-%d")
         message.update_user_details(str_birth_date, weight, height, gender)
-        msg = "good, I update your details"
+        msg = "good, I updated your details"
         message.update_current_state("/start")
     return msg
 
@@ -238,8 +239,8 @@ def getBMI_handler(message):
     if message.is_exist_init_user():
         bmi = calculations.calculate_bmi(user['weight'], user['height'])
         normal_weight = calculations.calculate_normal_weight(user['height'])
-        bmi_print = "Your BMI is: " + str(bmi)
-        normal_weight_print = "\nNormal weight for your height is:\n" + str(normal_weight[0]) + " to " + str(
+        bmi_print = "<b><ins>Your BMI is:</ins></b> " + str(bmi)
+        normal_weight_print = "\n<b>Normal weight for your height is:</b>\n" + str(normal_weight[0]) + " to " + str(
             normal_weight[1])
         bmi_category = calculations.get_bmi_category(bmi)
         return bmi_print + "\n" + bmi_category + "\n" + normal_weight_print
@@ -253,11 +254,11 @@ def get_recommendations(message, calories):
     user_day = message.get_user_day(datetime.datetime.now())
     if message.is_exist_init_user():
         if user_day.get("calories") + calories <= user.get("max_calories"):
-            return "\nOK. Looks like you can eat it"
+            return "\nOK. Looks like you can eat it, Bon appetite! \U0001F60A"
         else:
-            return "\nSorry, This food will make you exceed your daily calories"
+            return "\nSorry, This food will make you exceed your daily calories \U0001F62C"
     else:
         message.update_current_state("/start")
-        msg = "\nI'm missing details so I can't give you recommendations.\ngo to /update"
+        msg = "\nI'm missing your details to give recommendations.\nGo to /update to update"
         return msg
 
