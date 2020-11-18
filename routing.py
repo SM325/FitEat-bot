@@ -11,7 +11,7 @@ def start_handler(message):
     daily_state_menu = '/daily_state - display your daily state'
     add_food_menu = '/add - add food to your daily naturation'
     get_bmi_menu = '/getBMI - display your BMI'
-    msg = "Hi {} \n menu :\n{}\n{}\n{}\n{}\n{}\n{}".format(message.get_full_name(), start_menu, details_menu, update_menu,
+    msg = "Hi {}, \n\n  {}\n{}\n{}\n{}\n{}\n{}".format(message.get_full_name(), start_menu, details_menu, update_menu,
      daily_state_menu, add_food_menu, get_bmi_menu)
 
     message.update_current_state("/start")
@@ -45,7 +45,7 @@ def add_to_match_list(value, percent, val_name, pos_details_list, neg_details_li
 
 
 def daily_state_handler(message):
-    msg = ""
+    msg = "Your today status:\n"
     cur_date = datetime.datetime.now()
     if not message.is_exist_init_user():
         message.update_current_state("/start")
@@ -102,7 +102,9 @@ def add_nutrition_to_database_handler(message):
     insertion_ok = users_model.update_nutrition(message.user_id, datetime.datetime.now(), nutritions['calories'], nutritions['fat'], nutritions['carb'], nutritions['protein'])
     if insertion_ok:
 #        message.update_current_state("/start")
-        return "OK, I add {}".format(message.incoming_message)
+        state_str = daily_state_handler(message)
+        message.update_current_state("/add")
+        return "OK, I add {}\n\n{}".format(message.incoming_message, state_str)
     return get_wrong_msg(message)
 
 def get_nutrition_from_details_handler(message):
