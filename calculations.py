@@ -53,13 +53,13 @@ def calculate_normal_weight(height):
 
 def get_bmi_category(bmi):
     if bmi < 18.5:
-        return "You are underweight, you have to eat more..."
+        return "Your weight is too low, you have to eat more... \U0001F968	"
     elif bmi < 24.9:
-        return "Your weight is Normal, Well done!!!"
+        return "Your weight is good, Well done!!! \U0001F44C"
     elif bmi < 29.9:
-        return "You are overweight, please try to eat healthier \U0001F601 \U0001f600"
+        return "Your weight is too high..., please try to eat healthier \U0001F609\n I'm sure you can \U0001F4AA"
     else:
-        return "You suffer from obesity.... \nyou should change your lifestyle, I'm sure you can do this!"
+        return "Unfortunately your weight is very high \nLet's start maintaining a proper diet\nI'm sure you can do this! \U0001F4AA"
 
 
 def birthday_by_age(age):
