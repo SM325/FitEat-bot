@@ -34,7 +34,7 @@ def add_handler(message):
 
 def update_handler(message):
     if message.is_exist_init_user():
-        msg = "Please enter your weight(kg) and height(meter)\n For example: 80 1.80"
+        msg = "Please enter your weight(kg) and height(meter)\nFor example: 80 1.80"
         message.update_current_state("/update_weight_height") 
     else:
         msg = "Please enter your age, weight(kg), height(meter) and gender(male/female)" \
@@ -147,7 +147,8 @@ def display_nutritions_list(nutritions):
 def update_the_user_details_handler(message):
     details = message.incoming_message.split()
     if len(details) != 4:
-        msg = "I cant read.\n Please enter your birth date (YYYY-MM-DD), weight(k.g.), height(m.) and gender(male/female)"
+        msg = "I can't understand you \U0001F622\n Please enter your age, weight(kg), height(meter) and gender(male/female)" \
+              "in this format\n For example: 27 80 1.80 male"
     else:
         # validation!!!
         birth_date = details[0]
@@ -162,7 +163,8 @@ def update_the_user_details_handler(message):
 def update_the_user_weight_height_handler(message):
     details = message.incoming_message.split()
     if len(details) != 2:
-        msg = "I cant read.\n Please enter your weight(k.g.) and height(m.)"
+        msg = "I can't understand you \U0001F622\n Please enter your weight(kg) and height(meter) in this format" \
+              "\n For example: 80 1.80"
     else:
         # validation!!!
         user_details = message.get_user()
