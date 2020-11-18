@@ -30,15 +30,15 @@ def get_calories(birth_date, weight, height, gender):
 
 
 def get_carbs(birth_date, weight, height, gender):
-    return int(get_calories(birth_date, weight, height, gender) * 0.5)
+    return int(get_calories(birth_date, weight, height, gender) * 0.5 / 4)
 
 
 def get_protein(birth_date, weight, height, gender):
-    return int(get_calories(birth_date, weight, height, gender) * 0.3)
+    return int(get_calories(birth_date, weight, height, gender) * 0.3 / 4)
 
 
 def get_fats(birth_date, weight, height, gender):
-    return int(get_calories(birth_date, weight, height, gender) * 0.2)
+    return int(get_calories(birth_date, weight, height, gender) * 0.2/ 9)
 
 
 def calculate_bmi(weight, height):
