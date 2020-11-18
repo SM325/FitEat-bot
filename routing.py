@@ -13,7 +13,7 @@ def start_handler(message):
     daily_state_menu = '/daily_state - <i>view your daily state</i>\n\n'
     add_food_menu = '/add - <i>add a product you have eaten to your daily menu</i>\n\n'
     get_bmi_menu = '/getBMI - <i>view your BMI</i>'
-    msg = "<b>Hi {} \U0001F603 welcome!!\nI am Healthy-Bot \U0001F643\n\n</b>{}{}{}{}{}{}{}".format(message.get_full_name(),description, start_menu, details_menu, update_menu,
+    msg = "<b>Hi {} \U0001F603 welcome!!\nI am FitEat Bot \U0001F643\n\n</b>{}{}{}{}{}{}{}".format(message.get_full_name(),description, start_menu, details_menu, update_menu,
      daily_state_menu, add_food_menu, get_bmi_menu)
 
 
@@ -40,11 +40,11 @@ def add_handler(message):
 def update_handler(message):
     if message.is_exist_init_user():
 
-        msg = "What is your weight(kg) and height(meter)\nFor example: 80 1.80"
+        msg = "What is your weight(kg) and height(meter)\n<b>For example:</b><i> 80 1.80</i>"
         message.update_current_state("/update_weight_height")
     else:
         msg = "What is your age, weight(kg), height(meter) and gender(male/female)" \
-              "\n For example: 27 80 1.80 male"
+              "\n <b>For example:</b><i> 27 80 1.80 male</i>"
         message.update_current_state("/update")
     return msg
 
@@ -173,7 +173,7 @@ def update_the_user_details_handler(message):
     details = message.incoming_message.split()
     if len(details) != 4 or not validate_all_user_details(details):
         msg = "I can't understand you \U0001F622\n Please enter your age, weight(kg), height(meter) and gender(male/female)" \
-              "in this format\n For example: 27 80 1.80 male"
+              "in this format\n<b> For example:</b><i> 27 80 1.80 male</i>"
     else:
         age = float(details[0])
         weight = (float)(details[1])
@@ -186,7 +186,7 @@ def update_the_user_details_handler(message):
         birth_date = calculations.birthday_by_age(age)
         str_birth_date =  birth_date.strftime("%Y-%m-%d")
         message.update_user_details(str_birth_date, weight, height, gender)
-        msg = "good, I updated your details"
+        msg = "Good, I updated your details \U0001F642"
         message.update_current_state("/start")
     return msg
 
@@ -203,7 +203,7 @@ def update_the_user_weight_height_handler(message):
     details = message.incoming_message.split()
     if len(details) != 2 or not validate_weight_height_details(details):
         msg = "I can't understand you \U0001F622\n Please enter your weight(kg) and height(meter) in this format" \
-              "\n For example: 80 1.80"
+              "\n <b>For example:</b><i> 80 1.80</i>"
     else:
         user_details = message.get_user()
         birth_date = user_details.get("birth_date").strftime("%Y-%m-%d")
@@ -211,7 +211,7 @@ def update_the_user_weight_height_handler(message):
         height = (float)(details[1])
         gender = user_details.get("gender")
         message.update_user_details(birth_date, weight, height, gender)
-        msg = "good, I update your details"
+        msg = "Good, I updated your details \U0001F642"
         message.update_current_state("/start")
     return msg
 
