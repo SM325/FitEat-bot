@@ -184,7 +184,7 @@ def update_the_user_details_handler(message):
         birth_date = calculations.birthday_by_age(age)
         str_birth_date =  birth_date.strftime("%Y-%m-%d")
         message.update_user_details(str_birth_date, weight, height, gender)
-        msg = "good, I update your details"
+        msg = "good, I updated your details"
         message.update_current_state("/start")
     return msg
 
