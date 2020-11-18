@@ -31,8 +31,12 @@ def add_handler(message):
 
 
 def update_handler(message):
-    msg = "Please enter your birth date (YYYY-MM-DD), weight(kg), height(meter) and gender(male/female)"
-    message.update_current_state("/update")
+    if message.is_exist_init_user():
+        msg = "Please enter your weight(kg) and height(meter) "
+        message.update_current_state("/update_weight_height") 
+    else:
+        msg = "Please enter your birth date (YYYY-MM-DD), weight(kg), height(meter) and gender(male/female)"
+        message.update_current_state("/update")
     return msg
 
 def add_to_match_list(value, percent, val_name, pos_details_list, neg_details_list, zero_details_list):
@@ -148,7 +152,22 @@ def update_the_user_details_handler(message):
         gender = details[3]
         message.update_user_details(birth_date, weight, height, gender)
         msg = "good, I update your details"
-        message.update_current_state("update_user_details")
+        message.update_current_state("/start")
+    return msg
+
+def update_the_user_weight_height_handler(message):
+    details = message.incoming_message.split()
+    if len(details) != 2:
+        msg = "I cant read.\n Please enter your weight(k.g.) and height(m.)"
+    else:
+        # validation!!!
+        user_details = message.get_user()
+        birth_date = user_details.get("birth_date").strftime("%Y-%m-%d")
+        weight = (float)(details[0])
+        height = (float)(details[1])
+        gender = user_details.get("gender")
+        message.update_user_details(birth_date, weight, height, gender)
+        msg = "good, I update your details"
         message.update_current_state("/start")
     return msg
 
