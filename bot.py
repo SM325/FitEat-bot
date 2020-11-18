@@ -12,7 +12,7 @@ class Bot:
 
     def send_message(self):
         res = requests.get(
-            TELEGRAM_SEND_WEBHOOK_URL + "chat_id={}&text={}".format(self.message.chat_id, self.outgoing_message))
+            TELEGRAM_SEND_WEBHOOK_URL + "chat_id={}&text={}&parse_mode=HTML".format(self.message.chat_id, self.outgoing_message))
         return res.status_code == 200
 
     def action(self, req):
