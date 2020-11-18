@@ -5,15 +5,15 @@ import datetime
 
 
 def start_handler(message):
-    description = "I will help you keep track of your daily nutrition " \
-                  "and give you recommendations according to your current state.\n\n"
+    description = "<i>I will help you keep track of your daily nutrition " \
+                  "and give you recommendations according to your current state.\n\n</i>"
     start_menu = '/start - display menu\n\n'
     details_menu = '/ask - view a product nutritional values and recommendations\n\n'
     update_menu = '/update - update your details (for better results)\n\n'
     daily_state_menu = '/daily_state - view your daily state\n\n'
     add_food_menu = '/add - add a product you have eaten to your daily menu\n\n'
     get_bmi_menu = '/getBMI - view your BMI'
-    msg = "Hi {} \U0001F603 welcome!!\nI am Healthy-Bot \U0001F643\n\n{}{}{}{}{}{}{}".format(message.get_full_name(),description, start_menu, details_menu, update_menu,
+    msg = "<b>Hi {} \U0001F603 welcome!!\nI am Healthy-Bot \U0001F643\n\n</b>{}{}{}{}{}{}{}".format(message.get_full_name(),description, start_menu, details_menu, update_menu,
      daily_state_menu, add_food_menu, get_bmi_menu)
 
 
