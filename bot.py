@@ -23,7 +23,7 @@ class Bot:
             self.message = Message(msg)
 
             handler = routing.get_handler(self.message, self.message.user_id,
-                                          self.next_action)  # get_menu  # self.handlers(action)
+                                          self.next_action)
 
             self.outgoing_message = handler(self.message)
             return True
@@ -50,3 +50,5 @@ def get_bot():
     bot.add_next_action("/add", routing.add_nutrition_to_database_handler)
     Bot.init_webhook(TELEGRAM_INIT_WEBHOOK_URL)
     return bot
+
+
