@@ -223,7 +223,7 @@ def getBMI_handler(message):
     if message.is_exist_init_user():
         bmi = calculations.calculate_bmi(user['weight'], user['height'])
         normal_weight = calculations.calculate_normal_weight(user['height'])
-        bmi_print = "your BMI is: " + str(bmi)
+        bmi_print = "Your BMI is: " + str(bmi)
         normal_weight_print = "\nNormal weight for your height is:\n" + str(normal_weight[0]) + " to " + str(
             normal_weight[1])
         bmi_category = calculations.get_bmi_category(bmi)
