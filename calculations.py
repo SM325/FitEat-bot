@@ -1,5 +1,4 @@
 import datetime
-# import emoji
 
 def get_nutritions_by_weight(fields, weight_user):
     weight_item = fields.get('nf_serving_weight_grams')
@@ -45,10 +44,12 @@ def get_fats(birth_date, weight, height, gender):
 def calculate_bmi(weight, height):
     return round((weight) / (height ** 2), 2)
 
+
 def calculate_normal_weight(height):
-    start_weight =  round((18.5 * (height ** 2)), 2)
-    end_weight = round((24.9 * (height ** 2)) , 2)
+    start_weight = round((18.5 * (height ** 2)), 2)
+    end_weight = round((24.9 * (height ** 2)), 2)
     return start_weight, end_weight
+
 
 def get_bmi_category(bmi):
     if bmi < 18.5:
@@ -59,3 +60,10 @@ def get_bmi_category(bmi):
         return "You are overweight, please try to eat healthier \U0001F601 \U0001f600"
     else:
         return "You suffer from obesity.... \nyou should change your lifestyle, I'm sure you can do this!"
+
+
+def birthday_by_age(age):
+    datetime_object = datetime.datetime.now()
+    endDate = datetime_object.replace(year=datetime_object.year - age)
+    print(endDate)
+    return endDate

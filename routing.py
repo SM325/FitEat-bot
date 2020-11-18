@@ -156,14 +156,20 @@ def display_nutritions_list(nutritions):
 def update_the_user_details_handler(message):
     details = message.incoming_message.split()
     if len(details) != 4:
-        msg = "I cant read.\n Please enter your birth date (YYYY-MM-DD), weight(k.g.), height(m.) and gender(male/female)"
+        msg = "I cant read.\n Please enter your age, weight(k.g.), height(m.) and gender(male/female)"
     else:
         # validation!!!
-        birth_date = details[0]
+        age = float(details[0])
         weight = (float)(details[1])
         height = (float)(details[2])
         gender = details[3]
-        message.update_user_details(birth_date, weight, height, gender)
+        if (age - int(age) >= 0.5):
+            age = int(age) + 1
+        else:
+            age = int(age)
+        birth_date = calculations.birthday_by_age(age)
+        str_birth_date =  birth_date.strftime("%Y-%m-%d")
+        message.update_user_details(str_birth_date, weight, height, gender)
         msg = "good, I update your details"
         message.update_current_state("/start")
     return msg
