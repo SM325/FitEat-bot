@@ -54,14 +54,14 @@ def add_to_match_list(value, percent, val_name, pos_details_list, neg_details_li
         zero_details_list.append("{}\n".format(val_name))
     if value > 0:
         pos_details_list.append(
-            "{} {}, it is {}% of your daily amount \n".format(int(value), val_name, 100 - int(percent)))
+            "       {} {}  ==> 	{}% of your daily amount \n".format(int(value), val_name, 100 - int(percent)))
     if value < 0:
         neg_details_list.append(
-            "{} {}, it is {}% more then daily amount \n".format(-1 * int(value), val_name, int(percent) - 100))
+            "       {} {}  ==>   {}% more then daily amount \n".format(-1 * int(value), val_name, int(percent) - 100))
 
 
 def daily_state_handler(message):
-    msg = "Your today status:\n"
+    msg = "<b>Your nutritional values status:</b>\n\n"
     cur_date = datetime.datetime.now()
     if not message.is_exist_init_user():
         message.update_current_state("/start")
@@ -83,9 +83,10 @@ def daily_state_handler(message):
     pos_list = list()
     nag_list = list()
     zero_list = list()
-
-    pos_details = "You have left: \n"
-    neg_details = "You have exceeded: \n"
+	
+#\U00002795
+    pos_details = "\U00002714 <i>The nutritional values you have left:</i> \n"
+    neg_details = "\U0000274C	 <i>The nutritional values you have exceeded:</i>\n"
     zero_details = "You finish: \n"
 
     add_to_match_list(calories_dif, calories_percent, "calories", pos_list, nag_list, zero_list)
@@ -96,15 +97,15 @@ def daily_state_handler(message):
     if len(pos_list):
         for str_ in pos_list:
             pos_details += str_
-        msg += pos_details
+        msg += pos_details + "\n\n"
     if len(nag_list):
         for str_ in nag_list:
             neg_details += str_
-        msg += neg_details
-    if len(zero_list):
-        for str_ in zero_list:
-            zero_details += str_
-        msg += zero_details
+        msg += neg_details + "\n"
+    # if len(zero_list):
+    #     for str_ in zero_list:
+    #         zero_details += str_
+    #     msg += zero_details
 
     message.update_current_state("/start")
     return msg
@@ -148,9 +149,9 @@ def get_nutritions(message):
 def display_nutritions_list(nutritions):
     nutritions_list = "Nutritional values for: {}, {}g:".format(nutritions['item_name'], nutritions['weight'])
     nutritions_list += "\n\nCalories: " + str(nutritions['calories'])
-    nutritions_list += "\nfat: " + str(nutritions['fat'])
-    nutritions_list += "\ncarb: " + str(nutritions['carb'])
-    nutritions_list += "\nprotein: " + str(nutritions['protein'])
+    nutritions_list += "\nFat: " + str(nutritions['fat'])
+    nutritions_list += "\nCarb: " + str(nutritions['carb'])
+    nutritions_list += "\nProtein: " + str(nutritions['protein'])
     return nutritions_list
 
 
