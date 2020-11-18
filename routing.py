@@ -182,3 +182,18 @@ def getBMI_handler(message):
     else:
         msg = "You have to update your details, please enter /update to update"
         return msg
+
+
+
+def get_recommendations_handler(message, calories, fat, carb, protein):
+    if message.is_exist_init_user():
+        bmi = calculations.calculate_bmi(user['weight'], user['height'])
+        normal_weight = calculations.calculate_normal_weight(user['height'])
+        bmi_print = "your BMI is: " + str(bmi)
+        normal_weight_print = "\nNormal weight for your height is:\n" + str(normal_weight[0]) + " to " + str(
+            normal_weight[1])
+        bmi_category = calculations.get_bmi_category(bmi)
+        return bmi_print + "\n" + bmi_category + "\n" + normal_weight_print
+    else:
+        msg = "I'm missing details about you,go to /update"  # fix text after tamar's feature
+        return msg
