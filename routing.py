@@ -29,8 +29,11 @@ def details_handler(message):
 
 
 def add_handler(message):
-    msg = "please insert food and amount(g.)"
-    message.update_current_state("/add")
+    if message.is_exist_init_user():
+        msg = "please insert food and amount(g.)"
+        message.update_current_state("/add")
+    else:
+        msg = "I'm missing your details.\ngo to /update"
     return msg
 
 
@@ -225,5 +228,6 @@ def get_recommendations(message, calories):
         else:
             return "\nSorry, This food will make you exceed your daily calories"
     else:
+        message.update_current_state("/start")
         msg = "\nI'm missing details so I can't give you recommendations.\ngo to /update"
         return msg

@@ -126,7 +126,8 @@ def add_user_day(user_name, req_date):
 def get_user_day(user_name, req_date):
     date_for_query = req_date.strftime("%Y-%m-%d")
     res = None
-    query = "SELECT * FROM user_day as ud where ud.user_name = '{}' and ud.date_of_day = '{}'".format(user_name, date_for_query)
+    query = "SELECT * FROM user_day as ud where ud.user_name = '{}' and ud.date_of_day = '{}'".format(user_name,
+                                                                                                      date_for_query)
     items = do_query(query)
     if items:
         res = items[0]
@@ -139,11 +140,13 @@ def update_user_state(user_name, cur_state):
         return True
     return False
 
+
 def update_user_day_non_str_field(user_name_, req_date_, field_name, field_value):
     date_for_query = req_date_.strftime("%Y-%m-%d")
     query = '''UPDATE user_day
             SET {} = {}
-            where user_name = '{}' and date_of_day = '{}' '''.format(field_name, field_value, user_name_, date_for_query)
+            where user_name = '{}' and date_of_day = '{}' '''.format(field_name, field_value, user_name_,
+                                                                     date_for_query)
     return do_query_with_change(query)
 
 
@@ -151,10 +154,11 @@ def update_nutrition(user_name_, req_date_, calories, fat, carb, protein):
     curr_user_day = get_user_day(user_name_, req_date_)
     if not curr_user_day:
         return False
-    calories_res = update_user_day_non_str_field(user_name_,req_date_, 'calories',curr_user_day.get('calories') + calories)
-    fat_res = update_user_day_non_str_field(user_name_,req_date_, 'fat', curr_user_day.get('fat') + fat)
+    calories_res = update_user_day_non_str_field(user_name_, req_date_, 'calories',
+                                                 curr_user_day.get('calories') + calories)
+    fat_res = update_user_day_non_str_field(user_name_, req_date_, 'fat', curr_user_day.get('fat') + fat)
     crab_res = update_user_day_non_str_field(user_name_, req_date_, 'carb', curr_user_day.get('carb') + carb)
-    protein_res = update_user_day_non_str_field(user_name_, req_date_, 'protein', curr_user_day.get('protein') + protein)
-
+    protein_res = update_user_day_non_str_field(user_name_, req_date_, 'protein',
+                                                curr_user_day.get('protein') + protein)
 
     return calories_res and fat_res and crab_res and protein_res

@@ -18,7 +18,7 @@ class Bot:
     def action(self, req):
         '''return True if the action sucsess else -False'''
 
-        if req.get("message"):  # edited_ message ???
+        if req.get("message"):
             msg = req.get("message")
             self.message = Message(msg)
 
@@ -26,7 +26,6 @@ class Bot:
                                           self.next_action)  # get_menu  # self.handlers(action)
 
             self.outgoing_message = handler(self.message)
-            # self.message.update_current_state()
             return True
         else:
             return False
@@ -35,9 +34,6 @@ class Bot:
     def init_webhook(url):
         requests.get(url)
 
-    # def add_handler(self, action, handler):
-    #     self.handlers[action] = handler
-
     def add_next_action(self, action, func):
         self.next_action[action] = func
 
@@ -45,8 +41,9 @@ class Bot:
 def get_bot():
     bot = Bot()
     bot.add_next_action("pre_start", routing.start_handler)
-    bot.add_next_action("/start", {"/ask": routing.details_handler, "/add" : routing.add_handler, "/update": routing.update_handler,
-    "/daily_state": routing.daily_state_handler, "/getbmi": routing.getBMI_handler})
+    bot.add_next_action("/start", {"/ask": routing.details_handler, "/add": routing.add_handler,
+                                   "/update": routing.update_handler,
+                                   "/daily_state": routing.daily_state_handler, "/getbmi": routing.getBMI_handler})
     bot.add_next_action("/ask", routing.get_nutrition_from_details_handler)
     bot.add_next_action("/update", routing.update_the_user_details_handler)
     bot.add_next_action("/update_weight_height", routing.update_the_user_weight_height_handler)
