@@ -29,7 +29,7 @@ def details_handler(message):
 
 def add_handler(message):
     if message.is_exist_init_user():
-        msg = "What food did you eat and how much(g.)?\n For example: chocolate 30"
+        msg = "What food did you eat and how much(g.)?\n<b>For example:</b><i> chocolate 30</i>"
         message.update_current_state("/add")
     else:
         msg = "I'm missing your details.\ngo to /update"
@@ -172,8 +172,8 @@ def validate_all_user_details (details):
 def update_the_user_details_handler(message):
     details = message.incoming_message.split()
     if len(details) != 4 or not validate_all_user_details(details):
-        msg = "I can't understand you \U0001F622\n Please enter your age, weight(kg), height(meter) and gender(male/female)" \
-              "in this format\n<b> For example:</b><i> 27 80 1.80 male</i>"
+        msg = "I can't understand you \U0001F622\nPlease enter your age, weight(kg), height(meter) and gender(male/female)" \
+              "in this format\n<b>For example:</b><i> 27 80 1.80 male</i>"
     else:
         age = float(details[0])
         weight = (float)(details[1])
@@ -202,8 +202,8 @@ def validate_weight_height_details (details):
 def update_the_user_weight_height_handler(message):
     details = message.incoming_message.split()
     if len(details) != 2 or not validate_weight_height_details(details):
-        msg = "I can't understand you \U0001F622\n Please enter your weight(kg) and height(meter) in this format" \
-              "\n <b>For example:</b><i> 80 1.80</i>"
+        msg = "I can't understand you \U0001F622\nPlease enter your weight(kg) and height(meter) in this format" \
+              "\n<b>For example:</b><i> 80 1.80</i>"
     else:
         user_details = message.get_user()
         birth_date = user_details.get("birth_date").strftime("%Y-%m-%d")
